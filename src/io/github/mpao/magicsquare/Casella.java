@@ -2,7 +2,6 @@ package io.github.mpao.magicsquare;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View.MeasureSpec;
 import android.widget.TextView;
 
 public class Casella extends TextView {
@@ -25,6 +24,7 @@ public class Casella extends TextView {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
 	}
+
 	public void Highlight(int selected){
 		/* metodo per evidenziare le caselle in cui posso saltare
 		 * riceve in ingresso la posizione dell'array della
@@ -52,7 +52,7 @@ public class Casella extends TextView {
 	    int height = MeasureSpec.getSize(heightMeasureSpec);
 	    int size = width > height ? height : width;
 	    setMeasuredDimension(size, size);
-	}	
+	}
 }
 
 
