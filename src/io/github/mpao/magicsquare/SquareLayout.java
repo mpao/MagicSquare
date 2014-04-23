@@ -1,17 +1,12 @@
 package io.github.mpao.magicsquare;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
-import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 public class SquareLayout extends TableLayout {
-	
-	Casella[] arrBoard = new Casella[100];
-	int[] movesStack   = new int[100];
 	
 	public SquareLayout(Context context) {
 		super(context);
@@ -20,24 +15,16 @@ public class SquareLayout extends TableLayout {
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 		params.setMargins(3, 3, 3, 3);
 		params.weight = 1;
-
+		
 		for(int i=0; i<100; i++ ){
 			if(i%10==0) { row = new TableRow(getContext()); }
 			/* il costruttore di TextView con lo stile non funziona 
 			 * questa è una soluzione proposta su stackoverflow, ma che
 			 * cosa è ContextThemeWrapper ? Funziona, ma non per i margini */
-			arrBoard[i] = new Casella(new ContextThemeWrapper(getContext(), R.style.casella));
-			arrBoard[i].setLayoutParams(params);
-			arrBoard[i].setText(String.valueOf(i));
-			arrBoard[i].setClickable(true);
-			arrBoard[i].setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                	v.setBackgroundColor(Color.CYAN);
-                 }
-                });
-			row.addView(arrBoard[i]);
+			/* ho cambiato il costruttore di casella, riceve anche un INT per settare TAG */
+			Casella casella = new Casella(new ContextThemeWrapper(getContext(), R.style.casella), i);
+			casella.setLayoutParams(params);
+			row.addView(casella);
 			if(i%10==0) {this.addView(row);}
 		}
 	}
