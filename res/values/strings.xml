@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MagicSquare</string>
+    <string name="action_settings">Settings</string>
+    <string name="upperPlaceHolder">Magic Square</string>
+    <string name="number">N</string>
+
+</resources>
