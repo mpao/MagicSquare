@@ -7,11 +7,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 public class SquareLayout extends TableLayout {
-	
+	public Integer result;
 	public SquareLayout(Context context) {
 		super(context);
+		result = 0; // alla creazione della board metto result a zero
 		TableRow row = new TableRow(getContext());
-
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 		params.setMargins(3, 3, 3, 3);
 		params.weight = 1;
@@ -36,7 +36,12 @@ public class SquareLayout extends TableLayout {
 		
 	}
 
-	
+	public Integer getResult(){
+		return result;
+	}
+	public void increaseResult(){
+		result++;
+	}
 	/*
 	 * http://stackoverflow.com/questions/16748124/custom-square-linearlayout-how
 	 * http://developer.android.com/guide/topics/ui/custom-components.html

@@ -11,8 +11,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		SquareLayout board = new SquareLayout(this);
-
 		board.setBackgroundColor(Color.GRAY);
+		
 		setContentView(board);
 	}
 }

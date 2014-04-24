@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class Casella extends TextView implements OnClickListener{
@@ -13,7 +15,7 @@ public class Casella extends TextView implements OnClickListener{
 		
 		super(context);
 		this.setTag(tag);
-		this.setText(String.valueOf(this.getTag()));
+		
 		setOnClickListener(this); //diventa cliccabile: ATTENZIONE
 
 	}
@@ -40,13 +42,9 @@ public class Casella extends TextView implements OnClickListener{
 	}
 	@Override
 	public void onClick(View v) {
-		/* metodo per evidenziare le caselle in cui posso saltare
-		 * riceve in ingresso la posizione dell'array della
-		 * casella che è stata cliccata secondo il seguente
-		 * algoritmo:
-		 * le caselle sulla scacchiera sono numerate da 1 a 100
+		/* le caselle sulla scacchiera sono numerate da 1 a 100
 		 * partendo dall'angolo in alto a destra. in questo modo
-		 * sono identificabili all'interno di un array. il gioco
+		 * sono identificabili. il gioco
 		 * consiste nel muoversi attraverso la scacchiera secondo lo 
 		 * schema:
 		 		*	*	*	15	*	*	*
@@ -57,18 +55,52 @@ public class Casella extends TextView implements OnClickListener{
 		 		*	63	*	*	*	67	*
 		 		*	*	*	75	*	*	*		 
 		 * Dalla posizione X posso raggiungere le caselle
-		 * x-30, x-22, x-18, x-3, x+3, x+18, x+22, x+30 */            	
-		Integer whereIClick = (Integer) v.getTag();
+		 * x-30, x-22, x-18, x-3, x+3, x+18, x+22, x+30 */            		
+		SquareLayout parentId = (SquareLayout)((TableRow) v.getParent()).getParent();
+		parentId.increaseResult();
+		this.enableNextClick(v, (Integer) v.getTag(),parentId);
+		this.setText(parentId.getResult().toString());
+		    	/* Cosa fare ora ?
+    	 * 1. Se è il primo click del gioco tutte le caselle sono cliccabili
+    	 * 2. successivamente bloccare tutte tranne quelle in cui posso saltare
+    	 * 3. gestione del numero progressivo
+    	 * 4. se aiuto è attivo, evidenzio caselle in cui posso saltare */
+	}
+	private void enableNextClick(View v, int whereIClick,TableLayout parentId){
 		/* per utilizzare con successo findViewWithTag ho bisogno
 		 * di sapere chi è il genitore della view. Infatti nella
 		 * documentazione si dice che: 
-		 * Look for a child view with the given id. 
+		 * Look for a _child view_ with the given id. 
 		 * If this view has the given id, return this view.
 		 * Ho bisogno di riferirmi a BOARD per cambiare riga,
-		 * e quindi salgo di due livelli (il primo è TableRow) */
-		View parentId = (View)((View) v.getParent()).getParent();
-		View d = parentId.findViewWithTag(whereIClick-22);
-    	d.setBackgroundColor(Color.CYAN);  
+		 * e quindi salgo di due livelli (il primo è TableRow) */		
+		
+		int colonna = (Integer)v.getTag() % 10; //il numero della colonna è dato dal MOD di 10 =)
+		for(int i=0;i<100;i++){
+			if(
+				(i==whereIClick-30 & Math.abs(colonna-(whereIClick-30)%10)<=3) |
+				(i==whereIClick-22 & Math.abs(colonna-(whereIClick-22)%10)<=3) |
+				(i==whereIClick-18 & Math.abs(colonna-(whereIClick-18)%10)<=3) |
+				(i==whereIClick- 3 & Math.abs(colonna-(whereIClick- 3)%10)<=3) |
+				(i==whereIClick+ 3 & Math.abs(colonna-(whereIClick+ 3)%10)<=3) |
+				(i==whereIClick+18 & Math.abs(colonna-(whereIClick+18)%10)<=3) |
+				(i==whereIClick+22 & Math.abs(colonna-(whereIClick+22)%10)<=3) |
+				(i==whereIClick+30 & Math.abs(colonna-(whereIClick+30)%10)<=3)){
+				
+
+		    	if(parentId.findViewWithTag(whereIClick-30)!=null & Math.abs(colonna-(whereIClick-30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-30)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick-30).setBackgroundColor(Color.CYAN);}
+		    	if(parentId.findViewWithTag(whereIClick-22)!=null & Math.abs(colonna-(whereIClick-22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-22)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick-22).setBackgroundColor(Color.CYAN);}
+		    	if(parentId.findViewWithTag(whereIClick-18)!=null & Math.abs(colonna-(whereIClick-18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-18)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick-18).setBackgroundColor(Color.CYAN);}
+		    	if(parentId.findViewWithTag(whereIClick- 3)!=null & Math.abs(colonna-(whereIClick- 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick- 3)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick- 3).setBackgroundColor(Color.CYAN);}
+		    	if(parentId.findViewWithTag(whereIClick+ 3)!=null & Math.abs(colonna-(whereIClick+ 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+ 3)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick+ 3).setBackgroundColor(Color.CYAN);}
+		    	if(parentId.findViewWithTag(whereIClick+18)!=null & Math.abs(colonna-(whereIClick+18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+18)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick+18).setBackgroundColor(Color.CYAN);}
+		    	if(parentId.findViewWithTag(whereIClick+22)!=null & Math.abs(colonna-(whereIClick+22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+22)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick+22).setBackgroundColor(Color.CYAN);}
+		    	if(parentId.findViewWithTag(whereIClick+30)!=null & Math.abs(colonna-(whereIClick+30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+30)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick+30).setBackgroundColor(Color.CYAN);}
+			}else{
+				parentId.findViewWithTag(i).setClickable(false);
+				parentId.findViewWithTag(i).setBackgroundColor(Color.RED);
+			}	
+		}
 	}
 }
 
