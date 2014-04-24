@@ -11,7 +11,7 @@ public class SquareLayout extends TableLayout {
 	public SquareLayout(Context context) {
 		super(context);
 		TableRow row = new TableRow(getContext());
-
+		
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 		params.setMargins(3, 3, 3, 3);
 		params.weight = 1;
