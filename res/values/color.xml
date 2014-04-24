@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bgcolor">#CC0000</color>
+    <color name="casella">#b3b3b3</color>
+    <color name="board">#cccccc</color>
+    <color name="whereIam">#ffff00</color>
+    <color name="nextMoveHelper">#33ffe680</color>
 
 
 </resources>

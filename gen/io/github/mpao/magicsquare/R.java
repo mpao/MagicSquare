@@ -11,7 +11,10 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int bgcolor=0x7f040000;
+        public static final int board=0x7f040001;
+        public static final int casella=0x7f040000;
+        public static final int nextMoveHelper=0x7f040003;
+        public static final int whereIam=0x7f040002;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 

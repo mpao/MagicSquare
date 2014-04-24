@@ -1,7 +1,6 @@
 package io.github.mpao.magicsquare;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 
 public class MainActivity extends Activity {
@@ -11,8 +10,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		SquareLayout board = new SquareLayout(this);
-		board.setBackgroundColor(Color.GRAY);
-		
+		board.setBackgroundResource(R.color.board);
 		setContentView(board);
 	}
 }

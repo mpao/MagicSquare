@@ -1,7 +1,6 @@
 package io.github.mpao.magicsquare;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +14,7 @@ public class Casella extends TextView implements OnClickListener{
 		
 		super(context);
 		this.setTag(tag);
-		
+		this.setText("");
 		setOnClickListener(this); //diventa cliccabile: ATTENZIONE
 
 	}
@@ -60,8 +59,9 @@ public class Casella extends TextView implements OnClickListener{
 		parentId.increaseResult();
 		this.enableNextClick(v, (Integer) v.getTag(),parentId);
 		this.setText(parentId.getResult().toString());
+		this.setBackgroundResource(R.color.whereIam);
 		    	/* Cosa fare ora ?
-    	 * 1. Se è il primo click del gioco tutte le caselle sono cliccabili
+    	 * 1. Se è il primo click del gioco tutte le caselle sono cliccabili ed alla loro creazione lo sono
     	 * 2. successivamente bloccare tutte tranne quelle in cui posso saltare
     	 * 3. gestione del numero progressivo
     	 * 4. se aiuto è attivo, evidenzio caselle in cui posso saltare */
@@ -77,30 +77,18 @@ public class Casella extends TextView implements OnClickListener{
 		
 		int colonna = (Integer)v.getTag() % 10; //il numero della colonna è dato dal MOD di 10 =)
 		for(int i=0;i<100;i++){
-			if(
-				(i==whereIClick-30 & Math.abs(colonna-(whereIClick-30)%10)<=3) |
-				(i==whereIClick-22 & Math.abs(colonna-(whereIClick-22)%10)<=3) |
-				(i==whereIClick-18 & Math.abs(colonna-(whereIClick-18)%10)<=3) |
-				(i==whereIClick- 3 & Math.abs(colonna-(whereIClick- 3)%10)<=3) |
-				(i==whereIClick+ 3 & Math.abs(colonna-(whereIClick+ 3)%10)<=3) |
-				(i==whereIClick+18 & Math.abs(colonna-(whereIClick+18)%10)<=3) |
-				(i==whereIClick+22 & Math.abs(colonna-(whereIClick+22)%10)<=3) |
-				(i==whereIClick+30 & Math.abs(colonna-(whereIClick+30)%10)<=3)){
-				
-
-		    	if(parentId.findViewWithTag(whereIClick-30)!=null & Math.abs(colonna-(whereIClick-30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-30)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick-30).setBackgroundColor(Color.CYAN);}
-		    	if(parentId.findViewWithTag(whereIClick-22)!=null & Math.abs(colonna-(whereIClick-22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-22)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick-22).setBackgroundColor(Color.CYAN);}
-		    	if(parentId.findViewWithTag(whereIClick-18)!=null & Math.abs(colonna-(whereIClick-18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-18)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick-18).setBackgroundColor(Color.CYAN);}
-		    	if(parentId.findViewWithTag(whereIClick- 3)!=null & Math.abs(colonna-(whereIClick- 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick- 3)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick- 3).setBackgroundColor(Color.CYAN);}
-		    	if(parentId.findViewWithTag(whereIClick+ 3)!=null & Math.abs(colonna-(whereIClick+ 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+ 3)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick+ 3).setBackgroundColor(Color.CYAN);}
-		    	if(parentId.findViewWithTag(whereIClick+18)!=null & Math.abs(colonna-(whereIClick+18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+18)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick+18).setBackgroundColor(Color.CYAN);}
-		    	if(parentId.findViewWithTag(whereIClick+22)!=null & Math.abs(colonna-(whereIClick+22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+22)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick+22).setBackgroundColor(Color.CYAN);}
-		    	if(parentId.findViewWithTag(whereIClick+30)!=null & Math.abs(colonna-(whereIClick+30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+30)).getText()==""){parentId.findViewWithTag(i).setClickable(true); parentId.findViewWithTag(whereIClick+30).setBackgroundColor(Color.CYAN);}
-			}else{
-				parentId.findViewWithTag(i).setClickable(false);
-				parentId.findViewWithTag(i).setBackgroundColor(Color.RED);
-			}	
+			parentId.findViewWithTag(i).setClickable(false);
+			parentId.findViewWithTag(i).setBackgroundResource(R.color.casella);
 		}
+
+		if(parentId.findViewWithTag(whereIClick-30)!=null & Math.abs(colonna-(whereIClick-30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-30)).getText()==""){parentId.findViewWithTag(whereIClick-30).setClickable(true); parentId.findViewWithTag(whereIClick-30).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick-22)!=null & Math.abs(colonna-(whereIClick-22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-22)).getText()==""){parentId.findViewWithTag(whereIClick-22).setClickable(true); parentId.findViewWithTag(whereIClick-22).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick-18)!=null & Math.abs(colonna-(whereIClick-18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-18)).getText()==""){parentId.findViewWithTag(whereIClick-18).setClickable(true); parentId.findViewWithTag(whereIClick-18).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick- 3)!=null & Math.abs(colonna-(whereIClick- 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick- 3)).getText()==""){parentId.findViewWithTag(whereIClick- 3).setClickable(true); parentId.findViewWithTag(whereIClick- 3).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick+ 3)!=null & Math.abs(colonna-(whereIClick+ 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+ 3)).getText()==""){parentId.findViewWithTag(whereIClick+ 3).setClickable(true); parentId.findViewWithTag(whereIClick+ 3).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick+18)!=null & Math.abs(colonna-(whereIClick+18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+18)).getText()==""){parentId.findViewWithTag(whereIClick+18).setClickable(true); parentId.findViewWithTag(whereIClick+18).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick+22)!=null & Math.abs(colonna-(whereIClick+22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+22)).getText()==""){parentId.findViewWithTag(whereIClick+22).setClickable(true); parentId.findViewWithTag(whereIClick+22).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick+30)!=null & Math.abs(colonna-(whereIClick+30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+30)).getText()==""){parentId.findViewWithTag(whereIClick+30).setClickable(true); parentId.findViewWithTag(whereIClick+30).setBackgroundResource(R.color.nextMoveHelper);}
 	}
 }
 
