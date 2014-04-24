@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -66,7 +65,7 @@ public class Casella extends TextView implements OnClickListener{
     	 * 3. gestione del numero progressivo
     	 * 4. se aiuto è attivo, evidenzio caselle in cui posso saltare */
 	}
-	private void enableNextClick(View v, int whereIClick,TableLayout parentId){
+	private void enableNextClick(View v, int whereIClick,SquareLayout parentId){
 		/* per utilizzare con successo findViewWithTag ho bisogno
 		 * di sapere chi è il genitore della view. Infatti nella
 		 * documentazione si dice che: 
@@ -81,14 +80,14 @@ public class Casella extends TextView implements OnClickListener{
 			parentId.findViewWithTag(i).setBackgroundResource(R.color.casella);
 		}
 
-		if(parentId.findViewWithTag(whereIClick-30)!=null & Math.abs(colonna-(whereIClick-30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-30)).getText()==""){parentId.findViewWithTag(whereIClick-30).setClickable(true); parentId.findViewWithTag(whereIClick-30).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick-22)!=null & Math.abs(colonna-(whereIClick-22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-22)).getText()==""){parentId.findViewWithTag(whereIClick-22).setClickable(true); parentId.findViewWithTag(whereIClick-22).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick-18)!=null & Math.abs(colonna-(whereIClick-18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-18)).getText()==""){parentId.findViewWithTag(whereIClick-18).setClickable(true); parentId.findViewWithTag(whereIClick-18).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick- 3)!=null & Math.abs(colonna-(whereIClick- 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick- 3)).getText()==""){parentId.findViewWithTag(whereIClick- 3).setClickable(true); parentId.findViewWithTag(whereIClick- 3).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick+ 3)!=null & Math.abs(colonna-(whereIClick+ 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+ 3)).getText()==""){parentId.findViewWithTag(whereIClick+ 3).setClickable(true); parentId.findViewWithTag(whereIClick+ 3).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick+18)!=null & Math.abs(colonna-(whereIClick+18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+18)).getText()==""){parentId.findViewWithTag(whereIClick+18).setClickable(true); parentId.findViewWithTag(whereIClick+18).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick+22)!=null & Math.abs(colonna-(whereIClick+22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+22)).getText()==""){parentId.findViewWithTag(whereIClick+22).setClickable(true); parentId.findViewWithTag(whereIClick+22).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick+30)!=null & Math.abs(colonna-(whereIClick+30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+30)).getText()==""){parentId.findViewWithTag(whereIClick+30).setClickable(true); parentId.findViewWithTag(whereIClick+30).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick-30)!=null & Math.abs(colonna-(whereIClick-30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-30)).getText()==""){parentId.findViewWithTag(whereIClick-30).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick-30).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick-22)!=null & Math.abs(colonna-(whereIClick-22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-22)).getText()==""){parentId.findViewWithTag(whereIClick-22).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick-22).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick-18)!=null & Math.abs(colonna-(whereIClick-18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-18)).getText()==""){parentId.findViewWithTag(whereIClick-18).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick-18).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick- 3)!=null & Math.abs(colonna-(whereIClick- 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick- 3)).getText()==""){parentId.findViewWithTag(whereIClick- 3).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick- 3).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick+ 3)!=null & Math.abs(colonna-(whereIClick+ 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+ 3)).getText()==""){parentId.findViewWithTag(whereIClick+ 3).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick+ 3).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick+18)!=null & Math.abs(colonna-(whereIClick+18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+18)).getText()==""){parentId.findViewWithTag(whereIClick+18).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick+18).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick+22)!=null & Math.abs(colonna-(whereIClick+22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+22)).getText()==""){parentId.findViewWithTag(whereIClick+22).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick+22).setBackgroundResource(R.color.nextMoveHelper);}
+		if(parentId.findViewWithTag(whereIClick+30)!=null & Math.abs(colonna-(whereIClick+30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+30)).getText()==""){parentId.findViewWithTag(whereIClick+30).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick+30).setBackgroundResource(R.color.nextMoveHelper);}
 	}
 }
 
