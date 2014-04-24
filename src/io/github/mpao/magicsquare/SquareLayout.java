@@ -10,23 +10,28 @@ public class SquareLayout extends TableLayout {
 	
 	public SquareLayout(Context context) {
 		super(context);
+<<<<<<< HEAD
 		TableRow row = new TableRow(getContext());
 		
+=======
+		/*TableRow row = new TableRow(getContext());
+
+>>>>>>> 48a58639e6960449fb494f1ade0b3600c087ad35
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 		params.setMargins(3, 3, 3, 3);
 		params.weight = 1;
 		
 		for(int i=0; i<100; i++ ){
 			if(i%10==0) { row = new TableRow(getContext()); }
-			/* il costruttore di TextView con lo stile non funziona 
+			* il costruttore di TextView con lo stile non funziona 
 			 * questa è una soluzione proposta su stackoverflow, ma che
-			 * cosa è ContextThemeWrapper ? Funziona, ma non per i margini */
-			/* ho cambiato il costruttore di casella, riceve anche un INT per settare TAG */
+			 * cosa è ContextThemeWrapper ? Funziona, ma non per i margini
+			 * ho cambiato il costruttore di casella, riceve anche un INT per settare TAG *
 			Casella casella = new Casella(new ContextThemeWrapper(getContext(), R.style.casella), i);
 			casella.setLayoutParams(params);
 			row.addView(casella);
 			if(i%10==0) {this.addView(row);}
-		}
+		}*/
 	}
 	public SquareLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
