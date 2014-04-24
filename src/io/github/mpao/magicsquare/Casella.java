@@ -61,7 +61,7 @@ public class Casella extends TextView implements OnClickListener{
 		Integer whereIClick = (Integer) v.getTag();
 		this.setText("t"+(Integer.valueOf(whereIClick+3)).toString());
     	View s = (View)findViewWithTag(whereIClick);
-    	//Log.v("magicsquare","tag=" + whereIClick);
+    	// Log.v("magicsquare","tag=" + whereIClick);
     	s.setBackgroundColor(Color.CYAN);  
 		
 	}
