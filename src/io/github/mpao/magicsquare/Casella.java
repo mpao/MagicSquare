@@ -4,17 +4,19 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
+import android.widget.Button;
 
-public class Casella extends TextView implements OnClickListener{
+public class Casella extends Button {
 
-	public Casella(Context context, int tag) {
+	public Casella(Context context) {
 		
 		super(context);
-		this.setTag(tag);
+		
+		/*this.setTag(tag);
 		this.setText(String.valueOf(this.getTag()));
-		setOnClickListener(this); //diventa cliccabile: ATTENZIONE
+		setOnClickListener(this); //diventa cliccabile: ATTENZIONE*/
 
 	}
 	public Casella(Context context, AttributeSet attrs) {
@@ -37,33 +39,6 @@ public class Casella extends TextView implements OnClickListener{
 	    int height = MeasureSpec.getSize(heightMeasureSpec);
 	    int size = width > height ? height : width;
 	    setMeasuredDimension(size, size);
-	}
-	@Override
-	public void onClick(View v) {
-		/* metodo per evidenziare le caselle in cui posso saltare
-		 * riceve in ingresso la posizione dell'array della
-		 * casella che è stata cliccata secondo il seguente
-		 * algoritmo:
-		 * le caselle sulla scacchiera sono numerate da 1 a 100
-		 * partendo dall'angolo in alto a destra. in questo modo
-		 * sono identificabili all'interno di un array. il gioco
-		 * consiste nel muoversi attraverso la scacchiera secondo lo 
-		 * schema:
-		 		*	*	*	15	*	*	*
-		 		*	23	*	*	*	27	*
-		 		*	*	*	*	*	*	*
-		 		42	*	*	X	*	*	48
-		 		*	*	*	*	*	*	*
-		 		*	63	*	*	*	67	*
-		 		*	*	*	75	*	*	*		 
-		 * Dalla posizione X posso raggiungere le caselle
-		 * x-30, x-22, x-18, x-3, x+3, x+18, x+22, x+30 */            	
-		Integer whereIClick = (Integer) v.getTag();
-		this.setText("t"+(Integer.valueOf(whereIClick+3)).toString());
-    	View s = (View)findViewWithTag(whereIClick);
-    	// Log.v("magicsquare","tag=" + whereIClick);
-    	s.setBackgroundColor(Color.CYAN);  
-		
 	}
 }
 
