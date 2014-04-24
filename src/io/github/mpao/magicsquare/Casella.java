@@ -59,11 +59,16 @@ public class Casella extends TextView implements OnClickListener{
 		 * Dalla posizione X posso raggiungere le caselle
 		 * x-30, x-22, x-18, x-3, x+3, x+18, x+22, x+30 */            	
 		Integer whereIClick = (Integer) v.getTag();
-		this.setText("t"+(Integer.valueOf(whereIClick+3)).toString());
-    	View s = (View)findViewWithTag(whereIClick);
-    	// Log.v("magicsquare","tag=" + whereIClick);
-    	s.setBackgroundColor(Color.CYAN);  
-		
+		/* per utilizzare con successo findViewWithTag ho bisogno
+		 * di sapere chi è il genitore della view. Infatti nella
+		 * documentazione si dice che: 
+		 * Look for a child view with the given id. 
+		 * If this view has the given id, return this view.
+		 * Ho bisogno di riferirmi a BOARD per cambiare riga,
+		 * e quindi salgo di due livelli (il primo è TableRow) */
+		View parentId = (View)((View) v.getParent()).getParent();
+		View d = parentId.findViewWithTag(whereIClick-22);
+    	d.setBackgroundColor(Color.CYAN);  
 	}
 }
 
