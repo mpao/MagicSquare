@@ -74,20 +74,31 @@ public class Casella extends TextView implements OnClickListener{
 		 * Ho bisogno di riferirmi a BOARD per cambiare riga,
 		 * e quindi salgo di due livelli (il primo è TableRow) */		
 		
-		int colonna = (Integer)v.getTag() % 10; //il numero della colonna è dato dal MOD di 10 =)
 		for(int i=0;i<100;i++){
 			parentId.findViewWithTag(i).setClickable(false);
 			parentId.findViewWithTag(i).setBackgroundResource(R.color.casella);
 		}
-
-		if(parentId.findViewWithTag(whereIClick-30)!=null & Math.abs(colonna-(whereIClick-30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-30)).getText()==""){parentId.findViewWithTag(whereIClick-30).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick-30).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick-22)!=null & Math.abs(colonna-(whereIClick-22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-22)).getText()==""){parentId.findViewWithTag(whereIClick-22).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick-22).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick-18)!=null & Math.abs(colonna-(whereIClick-18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick-18)).getText()==""){parentId.findViewWithTag(whereIClick-18).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick-18).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick- 3)!=null & Math.abs(colonna-(whereIClick- 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick- 3)).getText()==""){parentId.findViewWithTag(whereIClick- 3).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick- 3).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick+ 3)!=null & Math.abs(colonna-(whereIClick+ 3)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+ 3)).getText()==""){parentId.findViewWithTag(whereIClick+ 3).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick+ 3).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick+18)!=null & Math.abs(colonna-(whereIClick+18)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+18)).getText()==""){parentId.findViewWithTag(whereIClick+18).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick+18).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick+22)!=null & Math.abs(colonna-(whereIClick+22)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+22)).getText()==""){parentId.findViewWithTag(whereIClick+22).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick+22).setBackgroundResource(R.color.nextMoveHelper);}
-		if(parentId.findViewWithTag(whereIClick+30)!=null & Math.abs(colonna-(whereIClick+30)%10)<=3 && ((Casella)parentId.findViewWithTag(whereIClick+30)).getText()==""){parentId.findViewWithTag(whereIClick+30).setClickable(true); if(parentId.isHelpActive())parentId.findViewWithTag(whereIClick+30).setBackgroundResource(R.color.nextMoveHelper);}
+		//le variabili definite qui sotto sono solo per semplificare la scrittura/lettura del codice
+		int colonna = (Integer)v.getTag() % 10; //il numero della colonna è dato dal MOD di 10 =)
+		/* da dove ho cliccato mi posso muovere nelle caselle seguenti*/
+		int posizioni[] =  {whereIClick-30,whereIClick-22,whereIClick-18,whereIClick-3,whereIClick+3,whereIClick+18,whereIClick+22,whereIClick+30};
+		//per ogni posizione definita dell'array
+		for(int i=0;i<8;i++){
+			/* se esiste la casella con quella posizione, e la distanda di colonna  <=3 e (lazy and, se arriva qui vuol dire
+			 * che la prima condizione  stata giudicata vera e quindi la casella esiste e perci˜ posso applicarci metodi ) 
+			 * tale casella non ha ancora un valore all'interno, allora...*/
+			if(
+					parentId.findViewWithTag(posizioni[i])!=null 
+					& Math.abs(colonna-(posizioni[i])%10)<=3 
+					&& ((Casella)parentId.findViewWithTag(posizioni[i])).getText()==""
+				){
+				/*... allora tale casella diventa cliccabile */
+				parentId.findViewWithTag(posizioni[i]).setClickable(true); 
+				/* e se l'help  attivo allora evidenzio anche dove pu˜ saltare nella mossa successiva*/
+				if(parentId.isHelpActive())
+					parentId.findViewWithTag(posizioni[i]).setBackgroundResource(R.color.nextMoveHelper);
+			}
+		}
 	}
 }
 
