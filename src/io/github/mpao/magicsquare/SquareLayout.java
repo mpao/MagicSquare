@@ -11,8 +11,8 @@ public class SquareLayout extends TableLayout {
 	 * ma tocca estendere tale Layout perchè voglio che sia quadrata e devo riscrivere il 
 	 * metodo onMeasure */
 	/* definisco due campi, due variabili di istanza che mi servono per:*/
-	public Integer result; // sapere quale numero sto gestendo
-	public boolean helpMe; // sapere se l'help è attivo o meno
+	private Integer result; // sapere quale numero sto gestendo
+	private boolean helpMe; // sapere se l'help è attivo o meno
 	public SquareLayout(Context context) {
 		/* costruttore:*/
 		super(context);

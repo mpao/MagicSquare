@@ -51,6 +51,7 @@ public class Casella extends TextView implements OnClickListener{
 
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		// http://developer.android.com/reference/android/widget/TextView.html#onMeasure(int,%20int)
 	    super.onMeasure(widthMeasureSpec, widthMeasureSpec);
 	    int width = MeasureSpec.getSize(widthMeasureSpec);
 	    int height = MeasureSpec.getSize(heightMeasureSpec);
