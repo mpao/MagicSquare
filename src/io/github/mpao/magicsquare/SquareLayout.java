@@ -1,3 +1,8 @@
+/*
+ * 
+ * IMPLEMENTAZIONE DELLA CLASSE SquareLayout
+ * 
+ */
 package io.github.mpao.magicsquare;
 
 import android.content.Context;
@@ -7,18 +12,18 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 public class SquareLayout extends TableLayout {
-	/* questa è la classe che rappresenta la Board, avrebbe potuto essere un TableLayout,
-	 * ma tocca estendere tale Layout perchè voglio che sia quadrata e devo riscrivere il 
+	/* questa √® la classe che rappresenta la Board, avrebbe potuto essere un TableLayout,
+	 * ma tocca estendere tale Layout perch√© voglio che sia quadrata e devo riscrivere il 
 	 * metodo onMeasure */
 	/* definisco due campi, due variabili di istanza che mi servono per:*/
 	private Integer result; // sapere quale numero sto gestendo
-	private boolean helpMe; // sapere se l'help è attivo o meno
+	private boolean helpMe; // sapere se l'help √® attivo o meno
 	public SquareLayout(Context context) {
 		/* costruttore:*/
 		super(context);
 		/* inizializzo a zero il risultato*/
 		result = 0;
-		/* di base l'aiuto è attivo, ma l'utente può scegliere di disabilitarlo */
+		/* di base l'aiuto √® attivo, ma l'utente pu√≤ scegliere di disabilitarlo */
 		helpMe = true;
 		/* creo una riga all'interno di SquareLayout che ti ricordo essere un TableLayout*/
 		TableRow row = new TableRow(getContext());
@@ -34,8 +39,8 @@ public class SquareLayout extends TableLayout {
 			 * devo cambiare riga, e quindi la creo*/
 			if(i%10==0) { row = new TableRow(getContext()); }
 			/* il costruttore di TextView con lo stile non funziona 
-			 * questa è una soluzione proposta su stackoverflow, ma che
-			 * cosa è ContextThemeWrapper ? Funziona, ma non per i margini */
+			 * questa √® una soluzione proposta su stackoverflow, ma che
+			 * cosa √® ContextThemeWrapper ? Funziona, ma non per i margini */
 			/* Costruisco la casella assegnandogli uno stile grafico e il TAG i che va quindi
 			 * da 0 a 99, partendo dall'angolo in alto a sinistra */
 			Casella casella = new Casella(new ContextThemeWrapper(getContext(), R.style.casella), i);
@@ -65,7 +70,7 @@ public class SquareLayout extends TableLayout {
 		result++;
 	}
 	public boolean isHelpActive(){
-		/* metodo getter per il campo helpMe, mi dice se l'help è attivo o meno */
+		/* metodo getter per il campo helpMe, mi dice se l'help √® attivo o meno */
 		return helpMe;
 	}
 	public void setHelp(boolean b){
