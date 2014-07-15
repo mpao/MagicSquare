@@ -1,10 +1,17 @@
-Appunti da riportare:
+aggiungo un'activity che diventa la principale
+se file->new-> activity rimane disabilitato, prova
+file ->new->other->activity
 
-1	layout principale
-2	il quadrato
---------------------
-3	i file di supporto e gli stili http://developer.android.com/guide/topics/ui/themes.html
-4	gli oggetti casella
-5	i metodi
---------------------
-6	compatibilità con altri terminali
+creare activity visibile al launcher e inserire i widget
+di cui ho bisogno
+
+in tal modo viene modificato android manifest 
+riportare nuova versione
+
+menu bar che farci ? Toglierla !
+
+http://developer.android.com/guide/topics/ui/actionbar.html
+ActionBar actionBar = getActionBar();
+actionBar.hide();
+però cosi il layout che vedo in fase di sviluppo è diverso, scegliere come style noactionbar. 
+in tal modo eclipse mi mostra activity come apparirà
