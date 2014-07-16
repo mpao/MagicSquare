@@ -2,46 +2,49 @@ package io.github.mpao.magicsquare;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
 public class MainActivity extends Activity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().hide(); // nascondo l'action bar, non mi serve in questa app
-		/* creo l'oggetto che conterrà le mie caselle */
 		SquareLayout board = new SquareLayout(this);
-		/* e ne imposto il colore come definito in color.xml*/
 		board.setBackgroundResource(R.color.board);
-		/* http://developer.android.com/reference/android/view/LayoutInflater.html
-		 * Carico e scompatto il layout principale */
 		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View mainLayout = inflater.inflate(R.layout.activity_main, board);
-		/* Attenzione al CAST: nel main uso LinearLayout, dopo di che, aggiungo la board */
-		/* ADDVIEW: Parameters: child the child view to add - index the position at which to add the child
-		 * aggiungendo un index quindi posso inserire la view in qualunque posizione del layout */
-		//((LinearLayout) mainLayout).addView(board); //inserire un indice quando il layout sarà completo
-		
-		/* assegno il layout all'activity */
+		/*assegno un ID a board per poterla identificare all'interno del metodo onStart*/
+		board.setId(1000); 
+		/* la board viene creata sempre vuota, poichè onCreate viene invocato o a inizio gioco, oppure
+		 * solo esclusivamente se questa activity è stata distrutta dall'utente o dal sistema. Ho bisogno
+		 * invece, che il controllo del gioco interrotto avvenga anche dopo onStop */
 		setContentView(mainLayout);
+		
+	}
+	@Override
+	protected void onStop() {
+		SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putInt("Test", 56);
+		editor.commit();
+	    super.onStop();  
+	}
+	@Override
+	protected void onStart() {
+		
+        int game = getIntent().getIntExtra(Start_Menu.MESSAGE, 0);
+        if(game==1){
+        	int defaultValue = 0;
+			SquareLayout board = (SquareLayout)this.findViewById(1000);
+			SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+			((Casella)board.findViewWithTag(5)).setText(((Integer)sharedPref.getInt("Test", defaultValue)).toString());
+        }
+        super.onStart();  
 	}
 }
 
-/*
- * Da approfondire attraverso la documentazione: 
- * 
- * OnClickListener
- * Context
- * onMeasure
- * ContextThemeWrapper
- * Log
- * 
- * Non impazzire se i messaggi di Log non funzionano, � colpa di Eclipse
- * abd da shell funziona perfettamente (adb è stato spostato nella directory "platform-tools") 
- * e un riavvio di Eclipse risolve il problema anche nell'editor. Per vedere invece che valore 
- * assumono le variabili inserire breakpoint e mandare in debug con la relativa perspective
- * */
  

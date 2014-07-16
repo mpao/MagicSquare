@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class Start_Menu extends Activity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -14,7 +14,15 @@ public class Start_Menu extends Activity {
 		setContentView(R.layout.start__menu);
 	}
 	public void startGame(View view) {
-	    Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra(MESSAGE, 0);
+		startActivity(intent);
+	}	
+	public void resumeGame(View view) {
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra(MESSAGE, 1);
 	    startActivity(intent);
 	}	
+	public final static String MESSAGE = "io.github.mpao.MagicSquare.GAME";
+
 }
