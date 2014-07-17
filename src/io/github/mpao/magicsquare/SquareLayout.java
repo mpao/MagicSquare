@@ -64,10 +64,26 @@ public class SquareLayout extends TableLayout {
 		 * della partita */
 		return result;
 	}
+	public void setResult(int r){
+		/* metodo setter per il campo result, utilizzato per riprendere il corso
+		 * di una partita dal punto dove ero rimasto */
+		result = r;
+	}	
 	public void increaseResult(){
 		/* metodo setter per il campo result, incrementa il risultato di uno.
 		 * utilizzato ad ogni click su una casella per aumentare il punteggio */
 		result++;
+	}
+	public int getPosition(Integer v){
+		/* con questo metodo, dato un valore, vado a cercarmi la casella in cui tale valore 
+		 * è stato assegnato. Utilizzato per il salvataggio dei dati in quanto è la casella
+		 * da cui devo ripartire.*/
+		int position = 0;
+		for(int i=0;i<100;i++){
+			String valore = ((Casella)this.findViewWithTag(i)).getText().toString(); 
+			if(valore == v.toString())  position = i;  
+		}
+		return position;
 	}
 	public boolean isHelpActive(){
 		/* metodo getter per il campo helpMe, mi dice se l'help è attivo o meno */

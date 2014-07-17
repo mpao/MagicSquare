@@ -99,7 +99,7 @@ public class Casella extends TextView implements OnClickListener{
 		 * Utile per debug o altre piccole info. Questo è solo un test */
 		Log.i("TAG: ",this.getTag().toString());
 	}
-	private void enableNextClick(View v){
+	public void enableNextClick(View v){
 		/* ALGORITMO:
 		 * le caselle sulla scacchiera sono numerate da 1 a 100
 		 * partendo dall'angolo in alto a destra. in questo modo
