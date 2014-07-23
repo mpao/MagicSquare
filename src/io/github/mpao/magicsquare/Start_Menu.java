@@ -20,11 +20,11 @@ public class Start_Menu extends Activity {
 		intent.putExtra(MESSAGE, 0);
 		/*  se clicco su start un dialog mi deve avvertire se esiste una partita in corso
 			- Una partita in corso esiste, se esiste SharedPreferences e result > 0 
-			- SharedPreferences esiste se una partita iniziata ha result > 0 e non è finita
-			- Una partita è finita quando non ho più mosse o sono arrivato a 100 */
+			- SharedPreferences esiste se una partita iniziata ha result > 0 e non Ã¨ finita
+			- Una partita Ã¨ finita quando non ho piÃ¹ mosse o sono arrivato a 100 */
 		SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 		if(sharedPref.contains("punteggio") && sharedPref.getInt("punteggio", 0)>0){
-			/* se esiste "punteggio" e (lazy) se esiste è maggiore di 0 
+			/* se esiste "punteggio" e (lazy) nel caso esista, ed Ã¨ maggiore di 0
 			 * allora mostrami un alert che mi dice se sono sicuro di perdere i 
 			 * progressi dell'altra partita */
 		}
