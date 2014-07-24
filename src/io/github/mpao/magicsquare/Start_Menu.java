@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,14 +19,14 @@ public class Start_Menu extends Activity {
 		setContentView(R.layout.start__menu);
 	}
 	@Override
-	public void onResume(){
-		/* una volta creata l'activity, al resume controllo se esiste il punteggio>0*/
+	public void onStart(){
+		/* una volta creata l'activity, al resume controllo se esiste il punteggio>0 in modo da disegnare
+		 * il tasto RESUME nella maniera corretta */
 		Button resume = (Button) findViewById(R.id.resume);
 		SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
 		/* il tasto resume è abilitato o disabilitato a seconda di cosa restituisce l'espressione
 		 * all'interno delle parentesi, ovvero se punteggio è > 0, restituisce TRUE e quindi il 
 		 * tasto è abilitato */
-		Log.i("punteggio"," = " + sharedPref.getInt("punteggio", 0));
 		resume.setEnabled(sharedPref.getInt("punteggio", 0)>0);
 		super.onStart();
 	}
@@ -43,7 +42,7 @@ public class Start_Menu extends Activity {
 		if(sharedPref.getInt("punteggio", 0)>0){
 			/* creo l'oggetto per un Alert */
 			AlertDialog.Builder newGameAlert = new AlertDialog.Builder(this);
-			/* ne imposto solo il testo, il titolo */
+			/* ne imposto solo il testo, il titolo non lo uso*/
 			newGameAlert.setMessage(R.string.newGameMessageAlert);
 			/* pulsante YES */
 			newGameAlert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -52,7 +51,7 @@ public class Start_Menu extends Activity {
 		        	/* cancello ogni entry di punteggio */
 		        	SharedPreferences sharedPref = getBaseContext().getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
 		        	SharedPreferences.Editor editor = sharedPref.edit();
-		        	editor.putInt("punteggio", 0);
+		        	editor.remove("punteggio");
 		        	editor.commit();
 		        	/* Creo l'intent, ci abbino il messaggio che è una nuova partita(0) 
 		        	 * e lancio l'activity MainActivity. */
