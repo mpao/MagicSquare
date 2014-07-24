@@ -29,41 +29,47 @@ public class MainActivity extends Activity {
 		setContentView(mainLayout);
 	}
 	@Override
-	protected void onStop() {
-		/* creo oggetto SharedPreferences e mi preparo a modificarlo */
-		SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
+	protected void onPause() {
 		/* mi creo un riferimento all'oggetto board creato attraverso onCreate e lo trovo
-		 * mediante il metodo findViewById */
+		 * mediante il metodo findViewById */		
 		SquareLayout board = (SquareLayout)this.findViewById(1000);
-		/* salvo le caselle cliccate con il valore che hanno assunto */
-		for(int i=0;i<100;i++){
-			/* per ogni casella, devo utilizzare il metodo putInt che prende come attributi una coppia di
-			 * valori fatta come Stringa = valore . Mi devo inventare quindi una stringa che identifichi 
-			 * ogni casella, e posso utilizzare i ( che corrisponde a tag) convertendola appunto da int a stringa */
-			String name = ((Integer)i).toString();
-			/* recupero il valore che ha la casella nella posizione i con alcuni cast per passare da array di char 
-			 * a oggetto string, a oggetto integer ed infine ad int. Mi sono complicato la vita e 
-			 * se la casella è vuota, non posso trasformarla in INT */
-			int value;
-			try{
-				value = Integer.parseInt(((Casella)board.findViewWithTag(i)).getText().toString());
-			}catch(NumberFormatException casellaVuota){
-				value = 0;
-			}
-			/* inserisco la coppia chiave-valore */
-			editor.putInt(name, value);
-		}
-		/* inserisco il punteggio a cui ero rimasto */
+		/* e mi ricavo il punteggio */
 		int punteggio = board.getResult();
-		editor.putInt("punteggio", punteggio);
-		/* ora salvo la posizione in cui tale punteggio è stato raggiunto, che vuol dire
-		 * che è l'ultima casella che ho cliccato.*/
-		editor.putInt("posizione", board.getPosition(punteggio));
-		/* salvo tutte le modifiche fatte */
-		editor.commit();
+		/* se il punteggio è maggiore di zero, ovvero ho cliccato almeno una casella, allora
+		 * salvo la situazione della board per poter giocare la partita in seguito*/
+		if(punteggio>0){
+			/* creo oggetto SharedPreferences e mi preparo a modificarlo. Utilizzo getSharedPreferences poichè
+			 * le informazioni contenute, devono essere lette da entrambe le activity */
+			SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPref.edit();
+			/* salvo le caselle cliccate con il valore che hanno assunto */
+			for(int i=0;i<100;i++){
+				/* per ogni casella, devo utilizzare il metodo putInt che prende come attributi una coppia di
+				 * valori fatta come Stringa = valore . Mi devo inventare quindi una stringa che identifichi 
+				 * ogni casella, e posso utilizzare i ( che corrisponde a tag) convertendola appunto da int a stringa */
+				String name = ((Integer)i).toString();
+				/* recupero il valore che ha la casella nella posizione i con alcuni cast per passare da array di char 
+				 * a oggetto string, a oggetto integer ed infine ad int. Mi sono complicato la vita e 
+				 * se la casella è vuota, non posso trasformarla in INT */
+				int value;
+				try{
+					value = Integer.parseInt(((Casella)board.findViewWithTag(i)).getText().toString());
+				}catch(NumberFormatException casellaVuota){
+					value = 0;
+				}
+				/* inserisco la coppia chiave-valore */
+				editor.putInt(name, value);
+			}
+			/* inserisco il punteggio a cui ero rimasto */
+			editor.putInt("punteggio", punteggio);
+			/* ora salvo la posizione in cui tale punteggio è stato raggiunto, che vuol dire
+			 * che è l'ultima casella che ho cliccato.*/
+			editor.putInt("posizione", board.getPosition(punteggio));
+			/* salvo tutte le modifiche fatte */
+			editor.commit();
+		}
 		/* richiamo il metodo onStop della superclasse */
-	    super.onStop();  
+	    super.onPause();  
 	}
 	@Override
 	protected void onStart() {
@@ -77,7 +83,7 @@ public class MainActivity extends Activity {
         	/* solito riferimento a board utilizzato anche in precedenza */
 			SquareLayout board = (SquareLayout)this.findViewById(1000);
 			/* e riferimento all'oggetto SharedPreferences da cui leggere le informazioni salvate */
-			SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+			SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
 			/* leggo tutte le caselle e, come sopra, le nomino attraverso i */
 			for(int i=0;i<100;i++){
 				String name = ((Integer)i).toString();
@@ -101,9 +107,8 @@ public class MainActivity extends Activity {
         super.onStart();  
 	}
 	@Override
-	protected void onPause(){
-		/* interrompo il cronometro*/
-	    super.onPause();
+	protected void onStop(){
+	    super.onStop();
 	}
 	@Override
 	protected void onResume(){

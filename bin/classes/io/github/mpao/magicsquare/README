@@ -1,17 +1,12 @@
-aggiungo un'activity che diventa la principale
-se file->new-> activity rimane disabilitato, prova
-file ->new->other->activity
+se clicco su start un dialog mi deve avvertire se esiste una partita in corso
+Una partita in corso esiste se esiste SharedPreferences e result > 0 
 
-creare activity visibile al launcher e inserire i widget
-di cui ho bisogno
+SharedPreferences esiste se una partita iniziata ha result > 0 e non √® finita
+Una partita √® finita quando non ho pi√π mosse o sono arrivato a 100
 
-in tal modo viene modificato android manifest 
-riportare nuova versione
+Resume deve essere disabilitato se SharedPreferences non esiste
 
-menu bar che farci ? Toglierla !
+SharedPreferences deve essere cancellato quando non ho pi√π mosse o sono arrivato a 100
+nel dialog box del fail
 
-http://developer.android.com/guide/topics/ui/actionbar.html
-ActionBar actionBar = getActionBar();
-actionBar.hide();
-perÚ cosi il layout che vedo in fase di sviluppo Ë diverso, scegliere come style noactionbar. 
-in tal modo eclipse mi mostra activity come apparir‡
+se clicco su resume riparte la partita
