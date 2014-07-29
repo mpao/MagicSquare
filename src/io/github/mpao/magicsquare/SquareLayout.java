@@ -6,6 +6,7 @@
 package io.github.mpao.magicsquare;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.widget.TableLayout;
@@ -93,6 +94,13 @@ public class SquareLayout extends TableLayout {
 		/* metodo setter per il campo helpMe, riceve in ingresso true o false e imposta
 		 * l'help come dettato dall'argomento in ingresso */
 		helpMe = b;
+	}
+	public void gameEnded(Integer result){
+		/* una casella mi ha avvisato che il gioco è finito, attraverso il context 
+		 * dell'applicazione posso lanciare delle activity. Devo anche cancellare i
+		 * salvataggi o comunque impedirli */
+		Context context = this.getContext();
+		context.startActivity(new Intent(context, Start_Menu.class));
 	}
 	/*
 	 * http://stackoverflow.com/questions/16748124/custom-square-linearlayout-how

@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.LinearLayout;
 
-
 public class MainActivity extends Activity {
 	
 	@Override

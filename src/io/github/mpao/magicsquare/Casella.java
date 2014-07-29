@@ -7,7 +7,6 @@ package io.github.mpao.magicsquare;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableRow;
@@ -89,17 +88,24 @@ public class Casella extends TextView implements OnClickListener{
 		 * un testo da poter inserire all'interno della casella che ho cliccato, attraverso il metodo setText*/
 		this.setText(parentId.getResult().toString());
 		/* Sono pronto ora per un nuovo click, e mi preparo con il metodo enableNextClick di Casella, che prende
-		 * in ingresso la View che sto cliccando */
-		this.enableNextClick(v);
-		/* Visto che ci sono, evidenzio la casella in cui sono, quella che ho appena cliccato. Lo faccio
-		 * impostando il background con un colore definito come risorsa esterna e NOTA BENE lo faccio dopo
-		 * aver eseguito il metodo enableNextClick */
-		this.setBackgroundResource(R.color.whereIam);
-		/* con l'oggetto Log mando in output nello streaming dei log quello che mi pare.
-		 * Utile per debug o altre piccole info. Questo è solo un test */
-		Log.i("TAG: ",this.getTag().toString());
+		 * in ingresso la View che sto cliccando. Il metodo ritorna vero o falso a seconda se ho ancora mosse
+		 * disponibili o meno, quindi se vero il gioco prosegue, se falso si interrompe. */
+		if(this.enableNextClick(v)){
+			// il gioco prosegue, evidenzio la casella che ho appena cliccato
+			this.setBackgroundResource(R.color.whereIam);
+		}else{
+			/* gioco finito mi avvio alla conclusione. Ci pensa la board con il suo
+			 * metodo gameEnded alla gestione. Casella non fa altro che alzare la bandierina
+			 * dicendo che il gioco è concluso con il punteggio di parentId.getResult(). Se
+			 * questo è uguale a 100 o minore, lo controlla la board */
+			parentId.gameEnded(parentId.getResult());
+		}
 	}
-	public void enableNextClick(View v){
+	public boolean enableNextClick(View v){
+		/* questo metodo deve stabilire se una partita è conclusa o meno, cioè se ho
+		 * ancora mosse disponibili. Definisco un array booleano che contiene il valore
+		 * che assumono le caselle per il salto */
+		boolean continua[] = {false,false,false,false,false,false,false,false};
 		/* ALGORITMO:
 		 * le caselle sulla scacchiera sono numerate da 1 a 100
 		 * partendo dall'angolo in alto a destra. in questo modo
@@ -164,8 +170,17 @@ public class Casella extends TextView implements OnClickListener{
 					/* allora evidenzio anche dove può saltare nella mossa successiva sempre con un colore
 					 * definito con risorsa esterna nel file color.xml */
 					parentId.findViewWithTag(posizioni[i]).setBackgroundResource(R.color.nextMoveHelper);
+				// questa casella è disponibile per il prossimo salto
+				continua[i] = true;
+			}else{
+				// questa casella NON è più disponibile
+				continua[i] = false;
 			}
 		}
+		/* se tutte le caselle ritornano FALSE, allora la partita è finita. Basta solo una casella
+		 * che ritorna TRUE e l'espressione qui sotto ritorna TRUE proseguendo nel gioco. */
+		return (continua[0] | continua[1] | continua[2] | continua[3]
+				 | continua[4] | continua[5] | continua[6] | continua[7]);
 	}
 }
 
