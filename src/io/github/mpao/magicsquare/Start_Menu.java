@@ -42,7 +42,7 @@ public class Start_Menu extends Activity {
 		if(sharedPref.getInt("punteggio", 0)>0){
 			/* creo l'oggetto per un Alert */
 			AlertDialog.Builder newGameAlert = new AlertDialog.Builder(this);
-			/* ne imposto solo il testo, il titolo non lo uso*/
+			/* ne imposto solo il testo, il titolo non lo uso */
 			newGameAlert.setMessage(R.string.newGameMessageAlert);
 			/* pulsante YES */
 			newGameAlert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -52,6 +52,7 @@ public class Start_Menu extends Activity {
 		        	SharedPreferences sharedPref = getBaseContext().getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
 		        	SharedPreferences.Editor editor = sharedPref.edit();
 		        	editor.remove("punteggio");
+		        	editor.remove("tempo");
 		        	editor.commit();
 		        	/* Creo l'intent, ci abbino il messaggio che è una nuova partita(0) 
 		        	 * e lancio l'activity MainActivity. */

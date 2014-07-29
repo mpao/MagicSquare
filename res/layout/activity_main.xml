@@ -3,6 +3,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-
-
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="30sp"
+        android:textSize="90sp" />
 </LinearLayout>

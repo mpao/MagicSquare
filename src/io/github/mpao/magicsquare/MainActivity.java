@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Chronometer;
+import android.widget.LinearLayout;
 
 
 public class MainActivity extends Activity {
@@ -18,9 +22,17 @@ public class MainActivity extends Activity {
 		SquareLayout board = new SquareLayout(this);
 		board.setBackgroundResource(R.color.board);
 		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View mainLayout = inflater.inflate(R.layout.activity_main, board);
+		/* inflate vuole come parametro il viewgroup che fa da root, posso passare null e tutto funziona 
+		 * lanciando solo un warning. Infatti, come dice la doc, inflate ritorna la root della risorsa 
+		 * XML se non gli si passa il secondo parametro. Visto che non voglio warning in una app didattica
+		 * mi prendo la root e la passo come parametro */
+		ViewGroup root = (ViewGroup)findViewById(R.layout.activity_main);
+		View mainLayout = inflater.inflate(R.layout.activity_main, root);
+		/* nel layout ho aggiunto il cronometro, ora addView mi serve per inserire
+		 * la board sopra o sotto di esso attraverso il parametro index. */ 
+		((LinearLayout) mainLayout).addView(board,0);
 		/*assegno un ID a board per poterla identificare all'interno del metodo onStart*/
-		board.setId(1000); 
+		board.setId(1000);
 		/* non permetto lo screenshot nelle app recenti, in modo da non far sbirciare durante la pausa. */
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 		/* la board viene creata sempre vuota, poichè onCreate viene invocato o a inizio gioco, oppure
@@ -30,6 +42,14 @@ public class MainActivity extends Activity {
 	}
 	@Override
 	protected void onPause() {
+		/* creo oggetto SharedPreferences e mi preparo a modificarlo. Utilizzo getSharedPreferences poichè
+		 * le informazioni contenute, devono essere lette da entrambe le activity */
+		SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();		
+		/* fermo il cronometro. il metodo stop, se leggi la documentazione, ferma solo visivamente la widget.
+		 * Per avere il tempo, occorre salvarlo sottraendolo dal tempo trascorso. */
+		((Chronometer) findViewById(R.id.chronometer)).stop();
+		long tempo = SystemClock.elapsedRealtime() - ((Chronometer) findViewById(R.id.chronometer)).getBase();	
 		/* mi creo un riferimento all'oggetto board creato attraverso onCreate e lo trovo
 		 * mediante il metodo findViewById */		
 		SquareLayout board = (SquareLayout)this.findViewById(1000);
@@ -38,10 +58,6 @@ public class MainActivity extends Activity {
 		/* se il punteggio è maggiore di zero, ovvero ho cliccato almeno una casella, allora
 		 * salvo la situazione della board per poter giocare la partita in seguito*/
 		if(punteggio>0){
-			/* creo oggetto SharedPreferences e mi preparo a modificarlo. Utilizzo getSharedPreferences poichè
-			 * le informazioni contenute, devono essere lette da entrambe le activity */
-			SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = sharedPref.edit();
 			/* salvo le caselle cliccate con il valore che hanno assunto */
 			for(int i=0;i<100;i++){
 				/* per ogni casella, devo utilizzare il metodo putInt che prende come attributi una coppia di
@@ -62,13 +78,15 @@ public class MainActivity extends Activity {
 			}
 			/* inserisco il punteggio a cui ero rimasto */
 			editor.putInt("punteggio", punteggio);
+			/* inserisco il valore del cronometro */
+			editor.putLong("tempo", tempo);	
 			/* ora salvo la posizione in cui tale punteggio è stato raggiunto, che vuol dire
 			 * che è l'ultima casella che ho cliccato.*/
 			editor.putInt("posizione", board.getPosition(punteggio));
 			/* salvo tutte le modifiche fatte */
 			editor.commit();
 		}
-		/* richiamo il metodo onStop della superclasse */
+		/* richiamo il metodo onPause della superclasse */
 	    super.onPause();  
 	}
 	@Override
@@ -113,6 +131,9 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume(){
 		/* riparte il cronometro */
+		SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
+		((Chronometer) findViewById(R.id.chronometer)).setBase(SystemClock.elapsedRealtime() - sharedPref.getLong("tempo", 0));
+		((Chronometer) findViewById(R.id.chronometer)).start();		
 	    super.onResume();
 	}
 }
