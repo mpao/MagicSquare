@@ -2,6 +2,7 @@ package io.github.mpao.magicsquare;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -131,10 +132,20 @@ public class MainActivity extends Activity {
 	protected void onResume(){
 		/* riparte il cronometro */
 		SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
-		((Chronometer) findViewById(R.id.chronometer)).setBase(SystemClock.elapsedRealtime() - sharedPref.getLong("tempo", 0));
-		((Chronometer) findViewById(R.id.chronometer)).start();		
+		Chronometer crono = (Chronometer) findViewById(R.id.chronometer);
+		crono.setBase(SystemClock.elapsedRealtime() - sharedPref.getLong("tempo", 0));
+		crono.start();	
 	    super.onResume();
+	}
+	public void mettiInPausa(View v){
+		/* questo metodo viene eseguito quando clicco sul cronometro.
+		 * L'applicazione va in pausa correttamente con il tasto back, ma voglio dare
+		 * la possibilità di essere rapidi a mettere in pausa cliccando su qualcosa. Invece
+		 * di inserire nell'Activity un pulsante, ho optato per utilizzare il widget cronometro come
+		 * tasto pausa. Senza tante menate, visto che ho scritto tutti i metodi per il tasto back, 
+		 * il tasto pausa non fa altro che emularlo, così mi risparmio lavoro */			
+		startActivity(new Intent(this, Start_Menu.class));
 	}
 }
 
- 
+

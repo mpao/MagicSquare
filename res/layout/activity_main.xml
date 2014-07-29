@@ -9,5 +9,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingTop="30sp"
-        android:textSize="90sp" />
+        android:textSize="90sp" 
+        android:clickable="true"
+		android:onClick="mettiInPausa" />
+    
 </LinearLayout>

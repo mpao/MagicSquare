@@ -97,10 +97,17 @@ public class SquareLayout extends TableLayout {
 	}
 	public void gameEnded(Integer result){
 		/* una casella mi ha avvisato che il gioco è finito, attraverso il context 
-		 * dell'applicazione posso lanciare delle activity. Devo anche cancellare i
-		 * salvataggi o comunque impedirli */
+		 * dell'applicazione posso lanciare delle activity e lo faccio eseguendo
+		 * l'activity score. Devo anche cancellare i salvataggi o comunque impedirli */
 		Context context = this.getContext();
 		context.startActivity(new Intent(context, Start_Menu.class));
+		/* TODO 
+		 * 1. eliminare i salvataggi 
+		 * 2. se entri in classifica, complimenti !
+		 * 3. scrivere il punteggio 
+		 * 4. se non entri in classifica, shame on you
+		 * 5. tasto per tornare al menù
+		 * 6. tasto per condivisione su facebook */
 	}
 	/*
 	 * http://stackoverflow.com/questions/16748124/custom-square-linearlayout-how
