@@ -82,5 +82,8 @@ public class Start_Menu extends Activity {
 	    startActivity(intent);
 	}	
 	public final static String MESSAGE = "io.github.mpao.MagicSquare.GAME";
-
+	public void showScores(View v){
+		/* mostra activity punteggi: non dovrei avere grosse necessità qui */
+		startActivity(new Intent(this, Scores.class));
+	}
 }

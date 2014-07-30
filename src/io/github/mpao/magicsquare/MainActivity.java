@@ -146,6 +146,31 @@ public class MainActivity extends Activity {
 		 * il tasto pausa non fa altro che emularlo, così mi risparmio lavoro */			
 		startActivity(new Intent(this, Start_Menu.class));
 	}
+	public final static String MESSAGE_PUNTEGGIO = "io.github.mpao.MagicSquare.PUNTEGGIO";
+	public final static String MESSAGE_TEMPO     = "io.github.mpao.MagicSquare.TEMPO";	
+	public void gameEnded(Integer result){
+		/* Casella avvisa la board che la partita è finita e le passa il risultato.
+		 * Board avvisa l'activity attraverso questo metodo che la partita è da chiudere,
+		 * e la activity prende le misure necessarie */
+		Chronometer crono = (Chronometer)findViewById(R.id.chronometer);
+		/* elimino i parametri che identificano il salvataggio
+		 * di una partita in corso. In tal modo, appena torno al menù, il tasto resume
+		 * sarà disabilitato e potrò iniziare una nuova partita 
+		 * TODO
+		 * perchè non funziona l'eliminazione dei risultati ??*/
+		SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();	
+    	editor.clear(); // metodo clear, rimuove tutte le chiavi !
+    	editor.commit();	
+		/* creo un intent che contiene il punteggio raggiunto ed il tempo impiegato in millisecondi */
+		Intent intent = new Intent(this, Scores.class);
+		Long tempo = ((Long)(SystemClock.elapsedRealtime() - crono.getBase()));
+		intent.putExtra(MESSAGE_PUNTEGGIO, result.toString());
+		intent.putExtra(MESSAGE_TEMPO, tempo.toString());
+		/* e lo invio alla activity Scores sotto forma di string perchè mi serve per debug al momento */
+		startActivity(intent);
+		finish(); //bye bye MainActivity: la elimino dallo stack
+	}
 }
 
 

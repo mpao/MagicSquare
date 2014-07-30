@@ -2,13 +2,13 @@
 <resources>
 
     <string name="app_name">Magic Square</string>
-    <string name="start">New Game</string>
-    <string name="resume">Resume</string>
-    <string name="scores">Scores</string>
+    <string name="start">Nuova Partita</string>
+    <string name="resume">Riprendi</string>
+    <string name="scores">Punteggi</string>
     <string name="yes">Sì</string>
     <string name="no">No</string>
     <string name="save_file_key">io.github.magicsquare.SAVE_FILE_KEY</string>
     <string name="newGameMessageAlert">Attenzione, esiste già una partita in corso, vuoi
         abbandonare i progressi ottenuti fino ad ora e iniziare una nuova partita ?</string>
-
+    <string name="exit">Torna al menù</string>
 </resources>

@@ -6,7 +6,6 @@
 package io.github.mpao.magicsquare;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.widget.TableLayout;
@@ -97,17 +96,10 @@ public class SquareLayout extends TableLayout {
 	}
 	public void gameEnded(Integer result){
 		/* una casella mi ha avvisato che il gioco è finito, attraverso il context 
-		 * dell'applicazione posso lanciare delle activity e lo faccio eseguendo
-		 * l'activity score. Devo anche cancellare i salvataggi o comunque impedirli */
-		Context context = this.getContext();
-		context.startActivity(new Intent(context, Start_Menu.class));
-		/* TODO 
-		 * 1. eliminare i salvataggi 
-		 * 2. se entri in classifica, complimenti !
-		 * 3. scrivere il punteggio 
-		 * 4. se non entri in classifica, shame on you
-		 * 5. tasto per tornare al menù
-		 * 6. tasto per condivisione su facebook */
+		 * dell'applicazione posso lanciare delle activity, ma piuttosto che farlo 
+		 * qui e complicarmi la vita, demando tutto alla activity che contiene questa
+		 * board, in cui ho scritto un metodo gameEnded in grado di gestire tutto */
+		((MainActivity)this.getContext()).gameEnded(result);
 	}
 	/*
 	 * http://stackoverflow.com/questions/16748124/custom-square-linearlayout-how
