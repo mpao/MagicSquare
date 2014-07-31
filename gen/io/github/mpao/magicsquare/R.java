@@ -45,9 +45,10 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f060000;
-        public static final int exit=0x7f060008;
-        public static final int newGameMessageAlert=0x7f060007;
+        public static final int exit=0x7f060009;
+        public static final int newGameMessageAlert=0x7f060008;
         public static final int no=0x7f060005;
+        public static final int preferences=0x7f060007;
         public static final int resume=0x7f060002;
         public static final int save_file_key=0x7f060006;
         public static final int scores=0x7f060003;

@@ -8,6 +8,7 @@
     <string name="yes">Sì</string>
     <string name="no">No</string>
     <string name="save_file_key">io.github.magicsquare.SAVE_FILE_KEY</string>
+    <string name="preferences">io.github.magicsquare.PREFERENCES</string>
     <string name="newGameMessageAlert">Attenzione, esiste già una partita in corso, vuoi
         abbandonare i progressi ottenuti fino ad ora e iniziare una nuova partita ?</string>
     <string name="exit">Torna al menù</string>

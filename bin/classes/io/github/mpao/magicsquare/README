@@ -1,10 +1,12 @@
 
+TASTO BACK: NON VOGLIO PRECEDENTE ACTIVITY, diverse soluzioni
+**********
+finish();
+
+Setting android:noHistory="true" on the activity in your manifest will remove an activity from 
+the stack whenever it is navigated away from. see:
+http://developer.android.com/guide/topics/manifest/activity-element.html#nohist
 
 
-SharedPreferences esiste se una partita iniziata ha result > 0 e non è finita
-Una partita è finita quando non ho più mosse o sono arrivato a 100
-
-
-SharedPreferences deve essere cancellato quando non ho più mosse o sono arrivato a 100
-nel dialog box del fail
+intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 

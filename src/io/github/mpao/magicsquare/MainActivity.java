@@ -151,24 +151,21 @@ public class MainActivity extends Activity {
 	public void gameEnded(Integer result){
 		/* Casella avvisa la board che la partita è finita e le passa il risultato.
 		 * Board avvisa l'activity attraverso questo metodo che la partita è da chiudere,
-		 * e la activity prende le misure necessarie */
+		 * L'incaricata di chiudere la partita è l'activity Score, che utilizza i valori
+		 * ottenuti per decidere se inserirli in classifica e che messaggio visualizzare. */
 		Chronometer crono = (Chronometer)findViewById(R.id.chronometer);
-		/* elimino i parametri che identificano il salvataggio
-		 * di una partita in corso. In tal modo, appena torno al menù, il tasto resume
-		 * sarà disabilitato e potrò iniziare una nuova partita 
-		 * TODO
-		 * perchè non funziona l'eliminazione dei risultati ??*/
-		SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.save_file_key), Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();	
-    	editor.clear(); // metodo clear, rimuove tutte le chiavi !
-    	editor.commit();	
-		/* creo un intent che contiene il punteggio raggiunto ed il tempo impiegato in millisecondi */
+		Long tempo = ((Long)(SystemClock.elapsedRealtime() - crono.getBase()));	
+		/* creo un intent che contiene il punteggio raggiunto ed il tempo impiegato in millisecondi 
+		 * il primo, mi arriva come argomento del metodo, il secondo lo calcolo come riportato qui
+		 * sopra.*/
 		Intent intent = new Intent(this, Scores.class);
-		Long tempo = ((Long)(SystemClock.elapsedRealtime() - crono.getBase()));
-		intent.putExtra(MESSAGE_PUNTEGGIO, result.toString());
-		intent.putExtra(MESSAGE_TEMPO, tempo.toString());
+		intent.putExtra(MESSAGE_PUNTEGGIO, result);	//INT
+		intent.putExtra(MESSAGE_TEMPO, tempo);		//LONG
 		/* e lo invio alla activity Scores sotto forma di string perchè mi serve per debug al momento */
 		startActivity(intent);
+		/* devo impedire che l'activity di gioco sia disponibile con il tasto BACK sullo stack, utilizzo
+		 * il metodo finish, anche se avrei potuto definire questa activity come android:noHistory="true"
+		 * nel file XML che la descrive. */
 		finish(); //bye bye MainActivity: la elimino dallo stack
 	}
 }
