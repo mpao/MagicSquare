@@ -1,7 +1,7 @@
 package io.github.mpao.magicsquare;
 
 import java.util.concurrent.TimeUnit;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -98,8 +98,12 @@ public class Scores extends Activity {
 		long minuti   = TimeUnit.MILLISECONDS.toMinutes(t);
 		long secondi  = TimeUnit.MILLISECONDS.toSeconds(t) - 
 						TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(t));
-		long millisec = t-TimeUnit.MILLISECONDS.toSeconds(t)*1000;		
-		return String.format("%d'%d''%d", minuti, secondi, millisec);
+		long millisec = t-TimeUnit.MILLISECONDS.toSeconds(t)*1000;	
+		/* ok funziona, ma il problema è che essendo numeri non hanno un bell'allineamento:
+		 * devo trasformarli in stringa e se sono minori di 10 aggiungere uno 0 davanti.
+		 * Utilizzo string.format passando il parametro %02d cioè inserisci il parametro inserendolo
+		 * con due cifre, di cui la prima è 0 se minore di 10 ( 3 cifre per i millesimi ) */
+		return String.format("%s'%s''%s", String.format("%02d", minuti), String.format("%02d", secondi), String.format("%03d", millisec));
 	}
 	private String debugPunteggio(Integer p, Long t){
 		String test = "Punteggio = "+ p.toString() +"\n";

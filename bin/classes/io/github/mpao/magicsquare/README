@@ -1,12 +1,2 @@
 
-TASTO BACK: NON VOGLIO PRECEDENTE ACTIVITY, diverse soluzioni
-**********
-finish();
-
-Setting android:noHistory="true" on the activity in your manifest will remove an activity from 
-the stack whenever it is navigated away from. see:
-http://developer.android.com/guide/topics/manifest/activity-element.html#nohist
-
-
-intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
+se la partita dura più di 99 minuti chiuderla.
