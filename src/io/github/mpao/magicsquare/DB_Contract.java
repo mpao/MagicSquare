@@ -24,9 +24,19 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************/
-/** Automatically generated file. DO NOT MODIFY */
 package io.github.mpao.magicsquare;
 
-public final class BuildConfig {
-    public final static boolean DEBUG = true;
+import android.provider.BaseColumns;
+
+public class DB_Contract {
+	/** per sicurezza, lasciare un costruttore vuoto. Dice. Nel caso 
+     * si istanzi questa class per sbaglio */
+    public DB_Contract() {}
+    /** classe per la tabella dei punteggi */
+    public static abstract class Classifica implements BaseColumns {
+        public static final String TABLE_NAME = "classifica";
+        public static final String COLUMN_NAME_PUNTEGGIO = "punteggio";
+        public static final String COLUMN_NAME_PUNTI = "punti";
+        public static final String COLUMN_NAME_TEMPO = "tempo";
+    }
 }

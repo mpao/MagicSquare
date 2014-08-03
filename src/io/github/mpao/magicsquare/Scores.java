@@ -1,7 +1,34 @@
+/*******************************************************************************
+ * This software is distributed under the following BSD license:
+ *
+ * Copyright (c) 2014, Marco Paoletti <mpao@me.com>, http://mpao.github.io
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met: 
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer. 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution. 
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *******************************************************************************/
 package io.github.mpao.magicsquare;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -56,6 +83,7 @@ public class Scores extends Activity {
         message.setText(this.debugPunteggio(punteggio, tempo));
         /* view con i migliori 10 punteggi.*/
         TextView scores = (TextView)findViewById(R.id.scoresList);
+        scores.setText("qui appare la classifica dei migliori punteggi");
 		super.onStart();
 	}
 	public void tornaAlMenu(View v){
@@ -101,9 +129,9 @@ public class Scores extends Activity {
 		long millisec = t-TimeUnit.MILLISECONDS.toSeconds(t)*1000;	
 		/* ok funziona, ma il problema è che essendo numeri non hanno un bell'allineamento:
 		 * devo trasformarli in stringa e se sono minori di 10 aggiungere uno 0 davanti.
-		 * Utilizzo string.format passando il parametro %02d cioè inserisci il parametro inserendolo
+		 * Utilizzo string.format passando il parametro %02d cioè: inserisci il parametro inserendolo
 		 * con due cifre, di cui la prima è 0 se minore di 10 ( 3 cifre per i millesimi ) */
-		return String.format("%s'%s''%s", String.format("%02d", minuti), String.format("%02d", secondi), String.format("%03d", millisec));
+		return String.format(Locale.getDefault(),"%02d'%02d''%03d",minuti, secondi, millisec);
 	}
 	private String debugPunteggio(Integer p, Long t){
 		String test = "Punteggio = "+ p.toString() +"\n";

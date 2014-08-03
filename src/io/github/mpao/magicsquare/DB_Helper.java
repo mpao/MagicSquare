@@ -24,9 +24,34 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *******************************************************************************/
-/** Automatically generated file. DO NOT MODIFY */
 package io.github.mpao.magicsquare;
 
-public final class BuildConfig {
-    public final static boolean DEBUG = true;
+import io.github.mpao.magicsquare.DB_Contract.Classifica;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DB_Helper extends SQLiteOpenHelper {
+    // se si cambia lo schema, aumentare il valore di DATABASE_VERSION
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "MagicSquare.db";
+    public DB_Helper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(SQL_CREATE_ENTRIES);
+    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(db);
+    }
+    private static final String SQL_CREATE_ENTRIES =
+            "CREATE TABLE " + Classifica.TABLE_NAME + " (" +
+                Classifica._ID + " INTEGER PRIMARY KEY," +
+                Classifica.COLUMN_NAME_PUNTEGGIO + " INTEGER," +
+                Classifica.COLUMN_NAME_PUNTI + " INTEGER," +
+                Classifica.COLUMN_NAME_TEMPO + " TEXT," +
+                " )";
+    private static final String SQL_DELETE_ENTRIES = 
+            "DROP TABLE IF EXISTS " + Classifica.TABLE_NAME;   
 }
