@@ -26,13 +26,18 @@
  *******************************************************************************/
 package io.github.mpao.magicsquare;
 
+import io.github.mpao.magicsquare.DB_Contract.Classifica;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -60,6 +65,7 @@ public class Scores extends Activity {
 		 * che è il valore di default che assumono punteggio e tempo se l'intent è vuoto. */
         Integer punteggio = intent.getIntExtra(MainActivity.MESSAGE_PUNTEGGIO, 0);
         Long tempo 		  = intent.getLongExtra(MainActivity.MESSAGE_TEMPO, 1);
+        DB_Helper dbHelper = new DB_Helper(this.getBaseContext());
         if(punteggio>0){
         /* se il punteggio è maggiore di zero, vuol dire arrivo in questa activity da una
          * partita appena finita. Elimino quindi subito tutti i salvataggi, in modo che non
@@ -76,14 +82,33 @@ public class Scores extends Activity {
          * 3. Tempo impiegato	timeToString(tempo)
          * Inoltre devo inserire le modalità in cui è stato ottenuto il punteggio, ovvero se l'help era attivo
          * o meno e se era una partita basic o expert */
+        	SQLiteDatabase db = dbHelper.getWritableDatabase();
+        	ContentValues values = new ContentValues();
+        	values.put(Classifica.COLUMN_NAME_PUNTEGGIO, punteggio);
+        	values.put(Classifica.COLUMN_NAME_PUNTI, calcolaPunti(punteggio, tempo));
+        	values.put(Classifica.COLUMN_NAME_TEMPO, tempo);
+        	db.insert(Classifica.TABLE_NAME,null,values);
         }
         /* questa view mi serve per scrivere messaggio di congratulazioni o altro quando si arriva 
          * nella activity dopo la partita. Se si arriva qui dal menù che ci metto ? La parola CLASSIFICA ? */
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor result = db.rawQuery("select * from Classifica order by punti desc", null);
+        String classifica = "";
+        for(int i=1;i<=10;i++){
+        	if(result.moveToNext()){
+        		classifica = classifica + String.format(Locale.getDefault(),"%d. %d - %d - %s\n",i, result.getInt(2), result.getInt(1),timeToString(result.getLong(3))); 
+        	}else
+        		classifica = classifica + String.format(Locale.getDefault(),"%d. --- - --- - ---\n",i);
+        }
         TextView message = (TextView)findViewById(R.id.scoreMessage);
-        message.setText(this.debugPunteggio(punteggio, tempo));
+		String test = "Punteggio = "+ punteggio.toString() +"\n";
+        test += "tempo = "+ timeToString(tempo)+"\n";
+        test += "tempo_ms = "+ tempo.toString() +"\n";
+        test += "punti = " + calcolaPunti(punteggio, tempo)+"\n";
+        message.setText(test);
         /* view con i migliori 10 punteggi.*/
         TextView scores = (TextView)findViewById(R.id.scoresList);
-        scores.setText("qui appare la classifica dei migliori punteggi");
+        scores.setText(classifica);
 		super.onStart();
 	}
 	public void tornaAlMenu(View v){
@@ -133,11 +158,7 @@ public class Scores extends Activity {
 		 * con due cifre, di cui la prima è 0 se minore di 10 ( 3 cifre per i millesimi ) */
 		return String.format(Locale.getDefault(),"%02d'%02d''%03d",minuti, secondi, millisec);
 	}
-	private String debugPunteggio(Integer p, Long t){
-		String test = "Punteggio = "+ p.toString() +"\n";
-        test += "tempo = "+ timeToString(t)+"\n";
-        test += "tempo_ms = "+ t.toString() +"\n";
-        test += "punti = " + calcolaPunti(p, t)+"\n";
-        return test;
+	private void insertClassifica(){
+		/* metodo insert di sqlite per inserire punteggio */
 	}
 }
