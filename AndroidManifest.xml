@@ -3,16 +3,16 @@
     package="io.github.mpao.magicsquare"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="10"
         android:targetSdkVersion="20" />
-
+<!-- senza la titlebar posso scendere ulteriormente sotto le API 10, ma per ora ho target android 2.3.6 -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"

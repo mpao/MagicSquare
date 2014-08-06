@@ -47,7 +47,7 @@ public class Scores extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().hide(); // nascondo l'action bar, non mi serve in questa app
+		//getActionBar().hide(); // nascondo l'action bar, non mi serve in questa app
 		setContentView(R.layout.scores);
 	}
 	@Override
@@ -65,6 +65,7 @@ public class Scores extends Activity {
 		 * che è il valore di default che assumono punteggio e tempo se l'intent è vuoto. */
         Integer punteggio = intent.getIntExtra(MainActivity.MESSAGE_PUNTEGGIO, 0);
         Long tempo 		  = intent.getLongExtra(MainActivity.MESSAGE_TEMPO, 1);
+        /* istanzio l'oggetto dbHelper che mi serve sia in scrittura che in lettura */
         DB_Helper dbHelper = new DB_Helper(this.getBaseContext());
         if(punteggio>0){
         /* se il punteggio è maggiore di zero, vuol dire arrivo in questa activity da una
@@ -74,32 +75,37 @@ public class Scores extends Activity {
         	SharedPreferences.Editor editor = sharedPref.edit();	
         	editor.clear(); // metodo clear, rimuove tutte le chiavi !
         	editor.commit();
-        /* TODO
-         * Devo salvare nel database le seguenti informazioni, ordine per il quale voglio anche 
-         * che venga successivamente rappresentata anche la classifica:
-         * 1. Punti				calcolaPunti(punteggio, tempo)
-         * 2. Punteggio			arriva con intent
-         * 3. Tempo impiegato	timeToString(tempo)
-         * Inoltre devo inserire le modalità in cui è stato ottenuto il punteggio, ovvero se l'help era attivo
-         * o meno e se era una partita basic o expert */
+        	/* a questo punto mi connetto al database e utilizzando ContentValues passo i 
+        	 * valori alle rispettive colonne */
         	SQLiteDatabase db = dbHelper.getWritableDatabase();
         	ContentValues values = new ContentValues();
         	values.put(Classifica.COLUMN_NAME_PUNTEGGIO, punteggio);
         	values.put(Classifica.COLUMN_NAME_PUNTI, calcolaPunti(punteggio, tempo));
         	values.put(Classifica.COLUMN_NAME_TEMPO, tempo);
+        	values.put(Classifica.COLUMN_NAME_HELP, true);
+        	values.put(Classifica.COLUMN_NAME_TYPE, "Basic");
+        	/* ed inserisco il nuovo record */
         	db.insert(Classifica.TABLE_NAME,null,values);
         }
-        /* questa view mi serve per scrivere messaggio di congratulazioni o altro quando si arriva 
-         * nella activity dopo la partita. Se si arriva qui dal menù che ci metto ? La parola CLASSIFICA ? */
+        /* questa porzione di codice viene eseguita sempre, sia quando ho appena finito una partita
+         * sia quando dal menù, clicco il pulsante dei punteggi. Istanzio SQLiteDatabase in modalità
+         * lettura ed eseguo una select per ottenere i primi 10 risultati*/
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor result = db.rawQuery("select * from Classifica order by punti desc", null);
+        Cursor result = db.rawQuery("select * from Classifica order by punti desc limit 10 ", null);
         String classifica = "";
+        /* il ciclo for lo utilizzo solo per inserire i numeri da 1 a 10, potrei farne a meno
+         * visto che la query mi ha già restituito 10 o meno record. */
         for(int i=1;i<=10;i++){
+        	/* moveToNext: leggiti la javadoc dei metodi di Cursor! In poche parole, restituisce FALSE
+        	 * se il cursore ha passato l'ultimo record disponibile ... */
         	if(result.moveToNext()){
+        		/* ... quindi se esiste un record al cursore, scrivi i dati del record stesso*/
         		classifica = classifica + String.format(Locale.getDefault(),"%d. %d - %d - %s\n",i, result.getInt(2), result.getInt(1),timeToString(result.getLong(3))); 
         	}else
+        		/* altrimenti scrivi qualcos'altro */
         		classifica = classifica + String.format(Locale.getDefault(),"%d. --- - --- - ---\n",i);
         }
+        /* parte di output da scrivere per intero. Per ora va bene così */
         TextView message = (TextView)findViewById(R.id.scoreMessage);
 		String test = "Punteggio = "+ punteggio.toString() +"\n";
         test += "tempo = "+ timeToString(tempo)+"\n";
@@ -157,8 +163,5 @@ public class Scores extends Activity {
 		 * Utilizzo string.format passando il parametro %02d cioè: inserisci il parametro inserendolo
 		 * con due cifre, di cui la prima è 0 se minore di 10 ( 3 cifre per i millesimi ) */
 		return String.format(Locale.getDefault(),"%02d'%02d''%03d",minuti, secondi, millisec);
-	}
-	private void insertClassifica(){
-		/* metodo insert di sqlite per inserire punteggio */
 	}
 }

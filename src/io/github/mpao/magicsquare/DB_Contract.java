@@ -38,5 +38,7 @@ public class DB_Contract {
         public static final String COLUMN_NAME_PUNTEGGIO = "punteggio";
         public static final String COLUMN_NAME_PUNTI = "punti";
         public static final String COLUMN_NAME_TEMPO = "tempo";
+        public static final String COLUMN_NAME_HELP = "help";
+        public static final String COLUMN_NAME_TYPE = "type";
     }
 }

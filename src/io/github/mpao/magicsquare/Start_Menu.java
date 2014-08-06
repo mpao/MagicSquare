@@ -41,7 +41,15 @@ public class Start_Menu extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().hide(); // nascondo l'action bar, non mi serve in questa app
+		/* cambio di programma: ho esteso la compatibilità della app alle API 10
+		 * per poter testare il gioco su un telefono che monta android 2.3.6 
+		 * Dovrei introdurre le libreire di supporto, ma poichè la action bar non mi serve
+		 * mi sembra idiota sbattersi per poi nasconderla. Viene in aiuto il manifest file
+		 * dove posso dichiarare un theme che non utilizza la action bar. La grafica cambia,
+		 * ma visto che le view verranno sostituite da immagini credo vada bene. Potrei 
+		 * definire meglio questo stile in style.xml, se proprio proprio mi trovo a usare
+		 * elementi grafici come pulsanti e layout*/
+		//getActionBar().hide(); // nascondo l'action bar, non mi serve in questa app
 		setContentView(R.layout.start__menu);
 	}
 	@Override

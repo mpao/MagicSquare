@@ -50,7 +50,9 @@ public class DB_Helper extends SQLiteOpenHelper {
                 Classifica._ID + " INTEGER PRIMARY KEY," +
                 Classifica.COLUMN_NAME_PUNTEGGIO + " INTEGER," +
                 Classifica.COLUMN_NAME_PUNTI + " INTEGER," +
-                Classifica.COLUMN_NAME_TEMPO + " INTEGER" +
+                Classifica.COLUMN_NAME_TEMPO + " INTEGER," +
+                Classifica.COLUMN_NAME_HELP + " BOOLEAN," +
+                Classifica.COLUMN_NAME_TYPE + " TEXT" +
                 " )";
     private static final String SQL_DELETE_ENTRIES = 
             "DROP TABLE IF EXISTS " + Classifica.TABLE_NAME;   

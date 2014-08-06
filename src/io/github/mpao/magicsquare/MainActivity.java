@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().hide(); // nascondo l'action bar, non mi serve in questa app
+		//getActionBar().hide(); // nascondo l'action bar, non mi serve in questa app
 		SquareLayout board = new SquareLayout(this);
 		board.setBackgroundResource(R.color.board);
 		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
