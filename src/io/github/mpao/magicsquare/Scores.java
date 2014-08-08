@@ -43,7 +43,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class Scores extends Activity {
-
+	private static Integer NUMRECORD = 10;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,7 +67,17 @@ public class Scores extends Activity {
         Long tempo 		  = intent.getLongExtra(MainActivity.MESSAGE_TEMPO, 1);
         /* istanzio l'oggetto dbHelper che mi serve sia in scrittura che in lettura */
         DB_Helper dbHelper = new DB_Helper(this.getBaseContext());
-        if(punteggio>0){
+        /* Voglio limitare le dimensioni del DB salvando solo gli N risultati che poi mostro ?
+         * Invece che punteggio>0, posso prendermi il N°esimo record e confrontarlo con punteggio.
+         * Istanzio SQLiteDatabase in modalità lettura */
+        SQLiteDatabase db_r = dbHelper.getReadableDatabase();
+        /* eleguo la query che mi restituisce i risultati */
+        Cursor result = db_r.rawQuery(String.format(Locale.getDefault(), "select * from Classifica order by punti desc limit %s ", NUMRECORD.toString()), null);
+        /* decimoPosto prende il valore di: moveToPosition restituisce true, vuol dire
+         * che esiste il record alla posizione N, quindi mi prendo il valore della colonna punteggio.
+         * Se restituisce false, basta che il punteggio sia maggiore di 0, ovvero ho finito una partita*/
+        int decimoPosto = result.moveToPosition(NUMRECORD) ? result.getInt(2) : 0;
+        if(punteggio > decimoPosto){
         /* se il punteggio è maggiore di zero, vuol dire arrivo in questa activity da una
          * partita appena finita. Elimino quindi subito tutti i salvataggi, in modo che non
          * possa essere più ripresa e che il tasto RESUME appaia disabilitato */
@@ -77,7 +87,7 @@ public class Scores extends Activity {
         	editor.commit();
         	/* a questo punto mi connetto al database e utilizzando ContentValues passo i 
         	 * valori alle rispettive colonne */
-        	SQLiteDatabase db = dbHelper.getWritableDatabase();
+        	SQLiteDatabase db_w = dbHelper.getWritableDatabase();
         	ContentValues values = new ContentValues();
         	values.put(Classifica.COLUMN_NAME_PUNTEGGIO, punteggio);
         	values.put(Classifica.COLUMN_NAME_PUNTI, calcolaPunti(punteggio, tempo));
@@ -85,17 +95,16 @@ public class Scores extends Activity {
         	values.put(Classifica.COLUMN_NAME_HELP, true);
         	values.put(Classifica.COLUMN_NAME_TYPE, "Basic");
         	/* ed inserisco il nuovo record */
-        	db.insert(Classifica.TABLE_NAME,null,values);
+        	db_w.insert(Classifica.TABLE_NAME,null,values);
         }
         /* questa porzione di codice viene eseguita sempre, sia quando ho appena finito una partita
-         * sia quando dal menù, clicco il pulsante dei punteggi. Istanzio SQLiteDatabase in modalità
-         * lettura ed eseguo una select per ottenere i primi 10 risultati*/
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor result = db.rawQuery("select * from Classifica order by punti desc limit 10 ", null);
+         * sia quando dal menù, clicco il pulsante dei punteggi. 
+         * Devo rieseguire la query, non basta spostare il cursore, poichè un nuovo record è entrato.*/
+        result = db_r.rawQuery(String.format(Locale.getDefault(), "select * from Classifica order by punti desc limit %s ", NUMRECORD.toString()), null);
         String classifica = "";
         /* il ciclo for lo utilizzo solo per inserire i numeri da 1 a 10, potrei farne a meno
          * visto che la query mi ha già restituito 10 o meno record. */
-        for(int i=1;i<=10;i++){
+        for(int i=1;i<=NUMRECORD+1;i++){
         	/* moveToNext: leggiti la javadoc dei metodi di Cursor! In poche parole, restituisce FALSE
         	 * se il cursore ha passato l'ultimo record disponibile ... */
         	if(result.moveToNext()){
