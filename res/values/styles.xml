@@ -21,5 +21,9 @@
  		<item name="android:background">@color/casella</item>
  		<item name="android:padding">5dp</item>
     </style>
+    <style name="testoClassifica" parent="@android:style/Widget.TextView">
+ 		<item name="android:gravity">center_horizontal</item>
+ 		<item name="android:layout_margin">2dp</item>
+    </style>
     
 </resources>

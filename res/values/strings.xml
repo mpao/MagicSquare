@@ -12,4 +12,7 @@
     <string name="newGameMessageAlert">Attenzione, esiste già una partita in corso, vuoi
         abbandonare i progressi ottenuti fino ad ora e iniziare una nuova partita ?</string>
     <string name="exit">Torna al menù</string>
+    <string name="columnOne">Punteggio</string>
+    <string name="columnTwo">Risultato</string>
+    <string name="columnThree">Tempo</string>
 </resources>

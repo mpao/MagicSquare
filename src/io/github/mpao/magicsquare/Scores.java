@@ -40,6 +40,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class Scores extends Activity {
@@ -101,18 +104,53 @@ public class Scores extends Activity {
          * sia quando dal menù, clicco il pulsante dei punteggi. 
          * Devo rieseguire la query, non basta spostare il cursore, poichè un nuovo record è entrato.*/
         result = db_r.rawQuery(String.format(Locale.getDefault(), "select * from Classifica order by punti desc limit %s ", NUMRECORD.toString()), null);
-        String classifica = "";
         /* il ciclo for lo utilizzo solo per inserire i numeri da 1 a 10, potrei farne a meno
-         * visto che la query mi ha già restituito 10 o meno record. */
-        for(int i=1;i<=NUMRECORD+1;i++){
+         * visto che la query mi ha già restituito 10 o meno record. Metto tutto in una tabella.
+         * Perchè non utilizzo ListView ? perchè i dati sono limitati e perpetui, cioè non cambiano
+         * mai, cambia solo il loro contenuto. potrei anche inserire tutti i N record nel file XML
+         * ma visto che è una cosa ripetitiva e che N è configurabile, preferisco farlo all'interno del codice*/
+        TableLayout scores = (TableLayout)findViewById(R.id.scoresList);  
+        for(int i=1;i<=NUMRECORD;i++){
         	/* moveToNext: leggiti la javadoc dei metodi di Cursor! In poche parole, restituisce FALSE
-        	 * se il cursore ha passato l'ultimo record disponibile ... */
+        	 * se il cursore ha passato l'ultimo record disponibile ... 
+        	 * Creo le mie caselle di testo per ogni riga*/
+        	TableRow row = new TableRow(getBaseContext());
+        	scores.addView(row);
+        	/* indice da 1 a N */
+        	TextView index = new TextView(getBaseContext()); 			row.addView(index);
+        	index.setLayoutParams(new TableRow.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
+        	/* il punteggio ottenuto */
+        	TextView tv_punteggio = new TextView(getBaseContext());		row.addView(tv_punteggio);
+        	tv_punteggio.setLayoutParams(new TableRow.LayoutParams(0, LayoutParams.WRAP_CONTENT, 3f));
+        	tv_punteggio.setTextAppearance(getBaseContext(), R.style.testoClassifica);
+        	/* hai usato l'help ?*/
+            TextView tv_help = new TextView(getBaseContext());			row.addView(tv_help);
+            tv_help.setLayoutParams(new TableRow.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
+            /* che tipo di partita era ? basic o expert ?*/
+            TextView tv_type = new TextView(getBaseContext());			row.addView(tv_type);
+            tv_type.setLayoutParams(new TableRow.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f));
+            /* a che numero sei arrivato ?*/
+        	TextView tv_punti = new TextView(getBaseContext());			row.addView(tv_punti);
+        	tv_punti.setLayoutParams(new TableRow.LayoutParams(0, LayoutParams.WRAP_CONTENT, 3f));
+        	/* in quanto tempo ?*/
+            TextView tv_tempo = new TextView(getBaseContext());			row.addView(tv_tempo);
+            tv_tempo.setLayoutParams(new TableRow.LayoutParams(0, LayoutParams.WRAP_CONTENT, 4f));
         	if(result.moveToNext()){
-        		/* ... quindi se esiste un record al cursore, scrivi i dati del record stesso*/
-        		classifica = classifica + String.format(Locale.getDefault(),"%d. %d - %d - %s\n",i, result.getInt(2), result.getInt(1),timeToString(result.getLong(3))); 
-        	}else
-        		/* altrimenti scrivi qualcos'altro */
-        		classifica = classifica + String.format(Locale.getDefault(),"%d. --- - --- - ---\n",i);
+        		/* se esiste un record, scrivo i valori */
+        		index.setText(String.format("%d",i));
+        		tv_punteggio.setText(String.format("%d",result.getInt(2)));
+        		tv_help.setText("Y"); // ture or false
+        		tv_type.setText("B"); // basic or expert
+        		tv_punti.setText(String.format("%d",result.getInt(1)));
+        		tv_tempo.setText(timeToString(result.getLong(3)));
+        	}else{
+        		index.setText(String.format("%d",i));
+        		tv_punteggio.setText("---");
+        		tv_help.setText(" "); // ture or false
+        		tv_type.setText(" "); // basic or expert
+        		tv_punti.setText("---");
+        		tv_tempo.setText("---");
+        	}
         }
         /* parte di output da scrivere per intero. Per ora va bene così */
         TextView message = (TextView)findViewById(R.id.scoreMessage);
@@ -121,9 +159,7 @@ public class Scores extends Activity {
         test += "tempo_ms = "+ tempo.toString() +"\n";
         test += "punti = " + calcolaPunti(punteggio, tempo)+"\n";
         message.setText(test);
-        /* view con i migliori 10 punteggi.*/
-        TextView scores = (TextView)findViewById(R.id.scoresList);
-        scores.setText(classifica);
+
 		super.onStart();
 	}
 	public void tornaAlMenu(View v){
@@ -158,7 +194,7 @@ public class Scores extends Activity {
 		return punti;
 	}
 	public String timeToString(Long t){
-		/*restituisce una stringa formattata come 1'21"046 in base al tempo parametro.
+		/* restituisce una stringa formattata come 1'21"046 in base al tempo parametro.
 		 * TimeUnit non è tanto semplice, poteva essere qualcosa di meglio. Tanto valeva 
 		 * fare i calcoli sul long: ad esempio 132984 tolgo le ultime 3 cifre che sono i ms
 		 * e divido per 1000. Rimane 132 che sono 2 minuti e 12 secondi. TimeUnit è bello 

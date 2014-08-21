@@ -47,6 +47,9 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f060000;
+        public static final int columnOne=0x7f06000a;
+        public static final int columnThree=0x7f06000c;
+        public static final int columnTwo=0x7f06000b;
         public static final int exit=0x7f060009;
         public static final int newGameMessageAlert=0x7f060008;
         public static final int no=0x7f060005;
@@ -85,5 +88,6 @@ public final class R {
          */
         public static final int AppTheme=0x7f070001;
         public static final int casella=0x7f070002;
+        public static final int testoClassifica=0x7f070003;
     }
 }
