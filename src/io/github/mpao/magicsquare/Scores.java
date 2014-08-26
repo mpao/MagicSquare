@@ -172,8 +172,8 @@ public class Scores extends Activity {
 		SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE);
 		boolean help = sharedPref.getBoolean("Help", true);
 		int	punti = 0;
-		final long 	ORDINEGRANDEZZA	= 1000000000000L;
-		final int 	BONUS 			= 500;
+		double coefficiente = 1;
+		final long 	ORDINEGRANDEZZA	= 1000000000L;
 		/* formula per il calcolo de punteggio: uso il float e poi moltiplico per
 		 * ordine di grandezza, per non perdermi i decimali che mi servono per meglio
 		 * definire il punteggio. Il tutto poi torna ad essere un int.
@@ -182,15 +182,16 @@ public class Scores extends Activity {
 		 * miglioramento di qualche millesimo di secondo sia da premiare al raggiungimento
 		 * dello stesso punteggio, quindi diventa inversamente proporzionale al quadrato
 		 * del tempo: stesso punteggio, ma un secondo migliore ha un gain notevole!
-		 * Così facendo però i numeri sono di diversi ordini di grandezza differenti */
-
-		punti = (int)((float)(p * ORDINEGRANDEZZA / (t*t) ));
-		// bonus se raggiungi 100
-		if(p==100) punti += BONUS;
+		 * Così facendo però i numeri sono di diversi ordini di grandezza differenti.
+		 * Inoltre, un pessimo risultato in pochi secondi, riceve punteggi anche di molto
+		 * superiori ad un 100. Ho quindi diviso in intervalli il calcolo */
+		if(p<80) 			coefficiente = 1.5 ;
+		if(p>=80 & p<90) 	coefficiente = 15 ;
+		if(p>=90 & p<100) 	coefficiente = 35 ;
+		if(p==100) 			coefficiente = 150 ;
+		punti = (int)((float)(p * ORDINEGRANDEZZA * coefficiente / (t*t) ));
 		// malus per utilizzo dell'help ( disattivato con diviso 1)
 		if(help) punti /= 1; 
-		// per fare tanti punti devi avere almeno un punteggio decente dai :)
-		if(p<70) punti /= 10000 ;
 		return punti;
 	}
 	public String timeToString(Long t){
