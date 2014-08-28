@@ -190,7 +190,7 @@ public class Scores extends Activity {
 		if(p>=90 & p<100) 	coefficiente = 35 ;
 		if(p==100) 			coefficiente = 150 ;
 		punti = (int)((float)(p * ORDINEGRANDEZZA * coefficiente / (t*t) ));
-		// malus per utilizzo dell'help ( disattivato con diviso 1)
+		// malus per utilizzo dell'help ( disattivato con diviso 1, mettici un altro valore)
 		if(help) punti /= 1; 
 		return punti;
 	}

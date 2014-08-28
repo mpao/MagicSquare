@@ -90,17 +90,17 @@ public class SquareLayout extends TableLayout {
 		 * della partita */
 		return result;
 	}
-	public void setResult(int r){
+	protected void setResult(int r){
 		/* metodo setter per il campo result, utilizzato per riprendere il corso
 		 * di una partita dal punto dove ero rimasto */
 		result = r;
 	}	
-	public void increaseResult(){
+	protected void increaseResult(){
 		/* metodo setter per il campo result, incrementa il risultato di uno.
 		 * utilizzato ad ogni click su una casella per aumentare il punteggio */
 		result++;
 	}
-	public int getPosition(Integer v){
+	protected int getPosition(Integer v){
 		/* con questo metodo, dato un valore, vado a cercarmi la casella in cui tale valore 
 		 * è stato assegnato. Utilizzato per il salvataggio dei dati in quanto è la casella
 		 * da cui devo ripartire.*/
@@ -111,16 +111,16 @@ public class SquareLayout extends TableLayout {
 		}
 		return position;
 	}
-	public boolean isHelpActive(){
+	protected boolean isHelpActive(){
 		/* metodo getter per il campo helpMe, mi dice se l'help è attivo o meno */
 		return helpMe;
 	}
-	public void setHelp(boolean b){
+	protected void setHelp(boolean b){
 		/* metodo setter per il campo helpMe, riceve in ingresso true o false e imposta
 		 * l'help come dettato dall'argomento in ingresso */
 		helpMe = b;
 	}
-	public void gameEnded(Integer result){
+	protected void gameEnded(Integer result){
 		/* una casella mi ha avvisato che il gioco è finito, attraverso il context 
 		 * dell'applicazione posso lanciare delle activity, ma piuttosto che farlo 
 		 * qui e complicarmi la vita, demando tutto alla activity che contiene questa

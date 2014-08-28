@@ -127,7 +127,7 @@ public class Casella extends TextView implements OnClickListener{
 			parentId.gameEnded(parentId.getResult());
 		}
 	}
-	public boolean enableNextClick(View v){
+	protected boolean enableNextClick(View v){
 		/* questo metodo deve stabilire se una partita è conclusa o meno, cioè se ho
 		 * ancora mosse disponibili. Definisco un array booleano che contiene il valore
 		 * che assumono le caselle per il salto */
